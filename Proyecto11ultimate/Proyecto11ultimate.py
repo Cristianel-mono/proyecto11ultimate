@@ -5,8 +5,8 @@ from .backend.backend import States_pagina
 
 
 
-def index(on_load=States_pagina.get_all_productos) -> rx.Component:
-    
+def index(on_load=States_pagina.get_all_products) -> rx.Component:
+    print("ejecutando el index")
     return rx.vstack(
         navbar(),
         rx.box(

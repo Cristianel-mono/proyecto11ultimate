@@ -106,13 +106,13 @@ def _header_cell(text: str, icon: str):
          ),
     )
 def table_producto(list_rollo: list[Rollo])-> rx.Component:#La tabla recibe una lista de usuario
-                                                        
+    print("Datos de table_producto:", list_rollo)                                                
     return rx.table.root(
         rx.table.header(
             rx.table.row(
                 _header_cell("Grupo", "ruler"),
                 _header_cell("Color", "ruler"),
-                _header_cell("Calibre", "ruler"),
+                _header_cell("Calibre", "ruler"),#aca declaramos les headers
                 _header_cell("Ancho", "ruler"),
                 _header_cell("Largo", "ruler"),
                 _header_cell("Referencia final", "ruler"),
@@ -131,9 +131,12 @@ def row_table(rollo: Rollo) -> rx.Component:
         rx.table.cell(rollo.Calibre),
         rx.table.cell(rollo.Ancho),
         rx.table.cell(rollo.Largo),
-        rx.table.cell(rx.hstack)(
-            rx.button("Eliminar")
+        rx.table.cell(
+            rx.hstack(
+                rx.button("Eliminar")
         )
+)
+
 
     )
 def main_table():

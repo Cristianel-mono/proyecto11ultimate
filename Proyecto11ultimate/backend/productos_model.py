@@ -7,8 +7,8 @@ class Rollo(rx.Model, table=True):
     Grupo: str
     Largo: int
     Material: str
-    PesoPorRollo:str
+    PesoPorRollo:int
     UnidadesCalibre:str
     UnidadesLargo:str
     unidadesAncho:str
-    codigoSiigo:int = Field(default=None, primary_key=True)
+    Codigo_Siigo:int = Field(default=None, primary_key=True)
