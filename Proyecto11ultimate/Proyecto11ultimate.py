@@ -4,8 +4,8 @@ from .views.table import main_table
 from .backend.backend import States_pagina
 
 
-
-def index(on_load=States_pagina.get_all_products) -> rx.Component:
+@rx.page()
+def index() -> rx.Component:
     print("ejecutando el index")
     return rx.vstack(
         navbar(),

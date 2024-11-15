@@ -1,7 +1,7 @@
 import reflex as rx
 
 from Proyecto11ultimate.components.form_field import crear_forma
-from Proyecto11ultimate.backend.backend import States_pagina
+from ..backend.backend import States_pagina
 
 # def ocultar_mostrar(label: str, field_name: str, field_component: rx.Component) -> rx.Component:
 #     
@@ -143,57 +143,101 @@ def bolsa_form():
             crear_forma("Largo (cm)", "Ingrese el Largo", "number", "largo", "ruler")
         )
     )
+
+
 def rollo_form():
     return rx.form(
-    rx.vstack(
-        rx.text("Creacion de referencia para Rollos", weight="bold", size="xl"),
-        rx.text(
-            "Por favor complete los campos opcionales y selecione las caracteristicas del producto",
-            italic=True,
-            margin_botton="1em",
-        ),
+        rx.vstack(
+            # Título del formulario
+            rx.text("Creación de referencia para Rollos", weight="bold", size="xl"),
+            rx.text(
+                "Por favor complete los campos opcionales y seleccione las características del producto",
+                italic=True,
+                margin_botton="1em",
+            ),
+            rx.text("Selecciona los parámetros opcionales que desea agregar:", weight="bold"),
+            # Selección de color
+            rx.text("Seleccione el Grupo"),
+            rx.select(
+                ["ROLLO PEBD ORIGINAL", "ROLLO PEBD CORRIENTE", "ROLLO PEBD SEMIORIGINAL", "ROLLO PEBD COEXTRUIDO", 
+                "ROLLO PEAD ORIGINAL", "ROLLO PEBD TERMOENCOGIBLE", "ROLLO MOPP", "ROLLO BOPP", "ROLLO CATPP", 
+                "ROLLO STRETCH", "ROLLO PROVIAGRO ENERGY", "ROLLO PROVIAGRO LUMINANCE", "ROLLO PROVIAGRO SPECTRUM", 
+                "ROLLO PROVIAGRO BLACK", "ROLLO PEBD ANCHO", "ROLLO PEBD CORRIENTE ANCHO", "ROLLO NEGRO SEMIORIGINAL"],
+                placeholder="Elija el Grupo",
+                name="Grupo",
+                required=True,
+            ),
+            
+            # Selección de material
+            rx.text("Selecciona el material de su Rollo"),
+            rx.select(
+                ["Aluminio", "Poliamida Bi-Orientada", "Polipropileno Bi-Orientado Mate",
+                 "Polipropileno Bi-Orientado Metalizado", "Polipropileno Bi-Orientado Perlado",
+                 "Polipropileno Bi-Orientado Transparente", "Polipropileno Cast", "EVOH Co-extruido",
+                 "Polipropileno Mono-Orientado", "Nylon Co-extruido", "Papel", "Polietileno de Alta Densidad", 
+                 "Polietileno de Alta Densidad Co-extruído", "Polietileno de Alta Densidad Corriente", 
+                 "Polietileno de Baja Densidad", "Polietileno de Baja Densidad Co-extruido", 
+                 "Polietileno de Baja Densidad Corriente", "Polietileno de Media Densidad", 
+                 "Polietileno de Media Densidad Co-extruído", "Poliéster Mate", "Poliéster Metalizado",
+                 "Poliéster Transparente", "Polipropileno Co-extruído", "Polietileno Stretch"],
+                placeholder="Elija el material",
+                name="Material",
+                required=True,
+            ),
+            
+            # Selección de color
+            rx.text("Seleccione el color"),
+            rx.select(
+                ["Amarillo", "Azul", "Blanco-Negro", "Blanco", "Naranja", "Negro", "Rojo",
+                 "Transparente", "Verde", "Blanco-Blanco", "Gris", "Plata-Negro"],
+                placeholder="Elija el color",
+                name="Color",
+                required=True,
+            ),
+            
+            
+            # Campos adicionales (Ancho, Código Siigo, etc.)
+            crear_forma("Ancho (cm)", "Ingrese el Ancho", "number", "Ancho", "ruler"),
+            crear_forma("Código Siigo", "Ingrese el código Siigo", "number", "Codigo_Siigo", "ruler"),
+            crear_forma("Calibre", "Ingrese el calibre (mm)", "number", "Calibre", "ruler"),
+            crear_forma("Largo (cm)", "Ingrese el Largo (cm)", "number", "Largo", "ruler"),
+            crear_forma("Peso por Rollo", "Ingrese el peso por rollo", "number", "PesoPorRollo", "weight"),
+            crear_forma("Unidades Calibre", "Ingrese las unidades del calibre", "text", "UnidadesCalibre", "ruler"),
+            crear_forma("Unidades Largo", "Ingrese las unidades del largo", "text", "UnidadesLargo", "ruler"),
+            crear_forma("Unidades Ancho", "Ingrese las unidades del ancho", "text", "unidadesAncho", "ruler"),
 
-
-        rx.text("Selecciona los parámetros opcionales que desea agregar:", weight="bold"),
-        # ocultar_mostrar("Fuelle Lateral", "fulleL_R", form_field("Fuelle Lateral", "Ingrese el fuelle Lateral", "number", "fuelle_R", "ruler")),
-        # ocultar_mostrar("Calibre", "calibre_R", form_field("Calibre", "Ingrese el calibre (mm)","number", "calibre_R", "ruler")),
-        # ocultar_mostrar("Largo", "largo_R", form_field("Largo (cm)", "Ingrese el Largo (cm)", "number", "largo_R", "ruler")),
-        # ocultar_mostrar("Referencia", "referencia_R", form_field("Referencia", "Ingrese la referencia", "number", "referencia_R", "ruler")),
-
-        rx.text("Selecciona el material de su Rollo"),
-        rx.select(
-            ["Aluminio", "Poliamida Bi-Orientada", "Polipropileno Bi-Orientado Mate",
-             "Polipropileno Bi-Orientado Metalizado", "Polipropileno Bi-Orientado Perlado",
-             "Polipropileno Bi-Orientado Transparente", "Polipropileno Cast", "EVOH Co-extruido",
-             "Polipropileno Mono-Orientado", "Nylon Co-extruido", "Papel", "Polietileno de Alta Densidad", 
-             "Polietileno de Alta Densidad Co-extruído", "Polietileno de Alta Densidad Corriente", 
-             "Polietileno de Baja Densidad", "Polietileno de Baja Densidad Co-extruido", 
-             "Polietileno de Baja Densidad Corriente", "Polietileno de Media Densidad", 
-             "Polietileno de Media Densidad Co-extruído", "Poliéster Mate", "Poliéster Metalizado",
-             "Poliéster Transparente", "Polipropileno Co-extruído", "Polietileno Stretch"],
-            placeholder="Elije el material",
-            name="material_R",
-            required=True,
+            # Botones de acción (Cancelar y Agregar Referencia)
+            rx.flex(
+                rx.dialog.close(
+                    rx.button(
+                        "Cancelar",
+                        variant="soft",
+                        color_scheme="gray",
+                    ),
+                ),
+                rx.form.submit(
+                    rx.dialog.close(
+                        rx.button("Agregar Referencia"),
+                    ),
+                    as_child=True,  # Hacer que el botón "Agregar Referencia" actúe como el submit del formulario
+                ),
+                padding_top="2em",
+                spacing="3",
+                mt="4",
+                justify="end",  # Alinear los botones al final del contenedor
+            ),
         ),
-        rx.text("Seleccione el color"),
-        rx.select(
-            ["Amarillo", "Azul", "Blanco-Negro", "Blanco", "Naranja", "Negro", "Rojo",
-             "Transparente", "Verde", "Blanco-Blanco", "Gris", "Plata-Negro"],
-            placeholder="Elija el color",
-            name="color_R",
-            required=True,  
-        ),
-        rx.text("Seleccione el Tipo de Bobinado"),
-        rx.select(
-            ["Tubular", "Semitubular", "Lámina", "Lámina doble"],
-            placeholder="Elija el tipo de bobinado",
-            name="bobinado_R",
-            required=True,
-        ),
-        crear_forma("Ancho (cm)", "Ingrese el Ancho", "number", "ancho_R", "ruler"),
+        on_submit=States_pagina.agregarProducto_to_db,  # Evento de envío manejado por el formulario
+        reset_on_submit=False,  # No restablecer el formulario tras el envío
+        width="100%",
+        direction="column",
+        spacing="4",
+        max_width="450px",
+        padding="1.5em",
+        border=f"2px solid {rx.color('accent', 7)}",
+        border_radius="25px",
     )
-    )
-    
+  
 
 def rolloProviAgro_form():
     return rx.form(
