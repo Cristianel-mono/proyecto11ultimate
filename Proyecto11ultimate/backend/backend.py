@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from ..backend.productos_model import Rollo
 from ..backend.connect_db import connect
 from ..backend.metodosdb import select_rollo
+from ..views.Listados import Grupos_por_Tipo_Producto, valor_exepcional, excepciones_por_grupo, excepciones_por_tipo
 
 #el metodo looad entries se llama cuando el usuario interaqctua con los filtros y valores 
 #que tenemos entonces con cualquiera de esas inteccaciones se llama a ese metodo 
@@ -22,6 +23,11 @@ class States_pagina(rx.State):
     buscar_valor: str = ""
     nombre_columna: str = "" # este es lomismo que sort_value
     order_table: bool = False # este es el mismo sort_reverse
+    tipo_producto: str = ""  # Tipo de producto seleccionado
+    grupos_disponibles: list[str] = []  # Lista de grupos disponibles según el tipo de producto
+    grupo_seleccionado: str = ""  # Grupo seleccionado por el usuario
+    campos_visibles: dict[str, bool] = {}  # Estado de visibilidad de los campos
+
     
     #creacion de funcion que carga todos los productos en la tabla 
     
@@ -40,7 +46,7 @@ class States_pagina(rx.State):
             try:
                 fields = Rollo.get_fields()
                 print(f"Campos retornados por Rollo.get_fields(): {fields}")
-                
+                text_fields = ["Codigo_Siigo", "Material", "fecha", "Grupo"]
                 query = query.where(
                     or_(
                         [
@@ -82,11 +88,55 @@ class States_pagina(rx.State):
         except Exception as e:
             print(f"Error al ejecutar la consulta: {e}")
         
-        #return self.rollos
-
-
-                 
        
+
+    # def actualizar_tipo_producto(self, tipo: str):
+    #     self.tipo_producto = tipo
+    #     self.grupos_disponibles = Grupos_por_Tipo_Producto.get(tipo, [])
+    #     self.grupo_seleccionado =""
+    #     self.campos_visibles = {}
+
+    # def actualizar_grupo(self, grupo: str):
+    #     self.grupo_seleccionado = grupo   
+
+    #      # Determinar las propiedades de los campos con base en el grupo
+    #     if self.tipo_producto == "Rollo sin impresión":
+    #         self.campos_visibles = rollos_sin_impresion.get(grupo, valor_exepcional)
+    #     else:
+    #         self.campos_visibles = valor_exepcional  # Configuración predeterminada
+    def actualizar_tipo_producto(self, tipo: str):
+        self.tipo_producto = tipo
+        self.grupos_disponibles = Grupos_por_Tipo_Producto.get(tipo, [])
+        self.grupo_seleccionado = ""  # Reinicia el grupo seleccionado
+        self.campos_visibles = {}  # Reinicia los campos visibles
+
+    # Si el tipo de producto tiene excepciones, aplica la lógica base
+        if tipo in excepciones_por_tipo:
+         # Configuración base para todos los grupos dentro del tipo de producto
+           self.campos_visibles = {campo: False for campo in excepciones_por_tipo[tipo]}
+        else:
+        # # Configuración predeterminada (todos los campos visibles)
+            self.campos_visibles = {campo: True for campo in valor_exepcional}
+
+    def actualizar_grupo(self, grupo: str):
+        self.grupo_seleccionado = grupo
+
+    # Determinar las propiedades de los campos basadas en tipo y grupo
+        if self.tipo_producto in excepciones_por_tipo:
+        # Comienza con la configuración base para el tipo de producto
+          campos_base = {campo: False for campo in excepciones_por_tipo[self.tipo_producto]}
+        else:
+        # Configuración predeterminada (todos los campos visibles)
+           campos_base = {campo: True for campo in valor_exepcional}
+
+    # Aplica las excepciones específicas para el grupo
+        for campo, grupos_excluidos in excepciones_por_grupo.items():
+            if grupo in grupos_excluidos:
+                campos_base[campo] = False
+
+    # Actualiza los campos visibles
+        self.campos_visibles = campos_base
+
 
     def update_selected(self, selected_product):
         self.selected_product = selected_product
@@ -122,7 +172,7 @@ class States_pagina(rx.State):
     def eliminar_producto(self, Codigo_Siigo:int):
         with rx.session() as session:
             rollo = session.exec(select(Rollo).where(Rollo.Codigo_Siigo == Codigo_Siigo)).first()
-            session.delete(Rollo)
+            session.delete(rollo)
             session.commit()
             self.cargar_productos()  
             return rx.toast.info(f"Referencia con codigo Siigo {rollo.Codigo_Siigo} ha sido eliminada", position="bottom-right")   

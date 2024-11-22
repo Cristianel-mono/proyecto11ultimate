@@ -172,6 +172,7 @@ def main_table():
                   _header_cell("Color", "ruler"),
                   _header_cell("Codigo Siigo", "ruler"),
                   _header_cell("Fecha", "ruler"),
+                  _header_cell("Botones Interactivos", "ruler"),
                 ),
             ),
             
