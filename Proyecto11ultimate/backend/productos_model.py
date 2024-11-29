@@ -2,6 +2,8 @@ import reflex as rx
 from sqlmodel import Field
 #Rollo es el nombre de la tabla de mi base de datos
 class Rollo(rx.Model, table=True):
+     # TipoProduco: str
+     # Grupo: str
      Ancho: int
      Calibre: int
      Color: str

@@ -9,20 +9,30 @@ def crear_forma(
     default_value: str = "",
     is_visible=None,  # Puede ser un Var
 ) -> rx.Component:
-    # Usar rx.cond para manejar la visibilidad
     return rx.cond(
         is_visible,  # Condición para mostrar el componente
         rx.form.field(
             rx.flex(
                 rx.hstack(
                     rx.icon(icon, size=16, stroke_width=1.5),
-                    rx.form.label(label),
-                    align="center",
-                    spacing="2",
+                    rx.form.label(label, style={"font-size": "16px", "margin-bottom": "6px"}),
+                     align="center",
+                     spacing="2",
                 ),
                 rx.form.control(
                     rx.input(
-                        placeholder=placeholder, type=type, default_value=default_value
+                        placeholder=placeholder,
+                        type=type,
+                        default_value=default_value,
+                        style={
+                             "height": "40px",  # Altura consistente
+                             "padding": "8px",  # Espaciado interno
+                             "font-size": "14px",  # Tamaño de fuente uniforme
+                             "border-radius": "4px",  # Bordes redondeados
+                             "border": "1px solid #ccc",  # Borde estándar
+                             "box-shadow": "none",  # Evitar resaltado por sombra
+                             "outline": "none",  # Evitar foco adicional
+                         },
                     ),
                     as_child=True,
                 ),
@@ -34,3 +44,4 @@ def crear_forma(
         ),
         rx.fragment(),  # Componente vacío si no es visible
     )
+

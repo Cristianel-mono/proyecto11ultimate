@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from ..backend.productos_model import Rollo
 from ..backend.connect_db import connect
 from ..backend.metodosdb import select_rollo
-from ..views.Listados import Grupos_por_Tipo_Producto, valor_exepcional, excepciones_por_grupo, excepciones_por_tipo
+from ..views.Listados import Grupos_por_Tipo_Producto, valor_exepcional, Campos_por_Tipo, Valores_predeterminados
 
 #el metodo looad entries se llama cuando el usuario interaqctua con los filtros y valores 
 #que tenemos entonces con cualquiera de esas inteccaciones se llama a ese metodo 
@@ -27,8 +27,7 @@ class States_pagina(rx.State):
     grupos_disponibles: list[str] = []  # Lista de grupos disponibles según el tipo de producto
     grupo_seleccionado: str = ""  # Grupo seleccionado por el usuario
     campos_visibles: dict[str, bool] = {}  # Estado de visibilidad de los campos
-
-    
+    valores_campos: dict[str, str] = {}
     #creacion de funcion que carga todos los productos en la tabla 
     
     @rx.event
@@ -89,55 +88,53 @@ class States_pagina(rx.State):
             print(f"Error al ejecutar la consulta: {e}")
         
        
-
-    # def actualizar_tipo_producto(self, tipo: str):
-    #     self.tipo_producto = tipo
-    #     self.grupos_disponibles = Grupos_por_Tipo_Producto.get(tipo, [])
-    #     self.grupo_seleccionado =""
-    #     self.campos_visibles = {}
-
-    # def actualizar_grupo(self, grupo: str):
-    #     self.grupo_seleccionado = grupo   
-
-    #      # Determinar las propiedades de los campos con base en el grupo
-    #     if self.tipo_producto == "Rollo sin impresión":
-    #         self.campos_visibles = rollos_sin_impresion.get(grupo, valor_exepcional)
-    #     else:
-    #         self.campos_visibles = valor_exepcional  # Configuración predeterminada
     def actualizar_tipo_producto(self, tipo: str):
+        """
+        Actualiza el tipo seleccionado y obtiene los grupos disponibles para ese tipo.
+        """
         self.tipo_producto = tipo
-        self.grupos_disponibles = Grupos_por_Tipo_Producto.get(tipo, [])
         self.grupo_seleccionado = ""  # Reinicia el grupo seleccionado
-        self.campos_visibles = {}  # Reinicia los campos visibles
 
-    # Si el tipo de producto tiene excepciones, aplica la lógica base
-        if tipo in excepciones_por_tipo:
-         # Configuración base para todos los grupos dentro del tipo de producto
-           self.campos_visibles = {campo: False for campo in excepciones_por_tipo[tipo]}
+        if tipo in Campos_por_Tipo:
+            # Obtiene los grupos disponibles para el tipo
+            self.grupos_disponibles = list(Campos_por_Tipo[tipo].keys())
         else:
-        # # Configuración predeterminada (todos los campos visibles)
-            self.campos_visibles = {campo: True for campo in valor_exepcional}
+            # Si el tipo no existe, limpia los datos
+            self.grupos_disponibles = []
+            self.campos_visibles = {}
 
+        print(f"Tipo seleccionado: {tipo}")
+        print(f"Grupos disponibles: {self.grupos_disponibles}")
+        print(f"Campos predeterminados: {self.valores_campos}")
     def actualizar_grupo(self, grupo: str):
-        self.grupo_seleccionado = grupo
+        """
+        Actualiza el grupo seleccionado, obtiene las claves de los campos visibles
+        y asigna los valores predeterminados si existen para ese grupo.
+        """
+        self.grupo_seleccionado = grupo  # Actualizamos el grupo seleccionado
 
-    # Determinar las propiedades de los campos basadas en tipo y grupo
-        if self.tipo_producto in excepciones_por_tipo:
-        # Comienza con la configuración base para el tipo de producto
-          campos_base = {campo: False for campo in excepciones_por_tipo[self.tipo_producto]}
+        # Verificar si el grupo existe en Campos_por_Tipo
+        if (
+            self.tipo_producto in Campos_por_Tipo
+            and grupo in Campos_por_Tipo[self.tipo_producto]
+        ):
+            # Obtiene los campos visibles
+            self.campos_visibles = Campos_por_Tipo[self.tipo_producto][grupo]
         else:
-        # Configuración predeterminada (todos los campos visibles)
-           campos_base = {campo: True for campo in valor_exepcional}
+            self.campos_visibles = valor_exepcional
 
-    # Aplica las excepciones específicas para el grupo
-        for campo, grupos_excluidos in excepciones_por_grupo.items():
-            if grupo in grupos_excluidos:
-                campos_base[campo] = False
+        # Verificar si el grupo tiene valores predeterminados
+        if grupo in Valores_predeterminados:
+            self.valores_campos = Valores_predeterminados[grupo]
+        else:
+            self.valores_campos = {}  # Reseteamos si no hay valores predeterminados
 
-    # Actualiza los campos visibles
-        self.campos_visibles = campos_base
+        # Depuración
+        print(f"Grupo seleccionado: {grupo}")
+        print(f"Campos visibles: {self.campos_visibles}")
+        print(f"Campos predeterminados: {self.valores_campos}")
 
-
+   
     def update_selected(self, selected_product):
         self.selected_product = selected_product
 

@@ -67,76 +67,29 @@ Tipo_Producto: list = [
     "Rollo bilaminado sin impresión", 
     "Rollo bilaminado con impresión", 
     "Rollo trilaminado sin impresión", 
-    "Rollo trilaminado con impresión",
-    "Rollo refilado sin impresión", 
-    "Rollo refilado con impresión", 
+    "Rollo trilaminado con impresión", 
     "Plástico para invernadero",
     "Rollo acolchado/mulch", 
-    "Rollo negro aditivado",
+    
 ]
 #preguntar si estan bien las unidades de esta manera 
 Unidades_Ancho: list[str] = [
-"cm",
-"mm",
-"in",
+"Centimetros(cm)",
+"Milimetros(cm)",
+"Pulgadas(in)",
 
 ]
 Unidades_Largo: list = [
-"cm",
-"mm",
-"in",
-"m",
+"Centimetros(cm)",
+"Milimetros(cm)",
+"Pulgadas(in)",
+"Metros(m)",
   
 ]
-Undiades_Calibre: list = [
- "mils",
- "mic",  
+Unidades_Calibre: list = [
+ "Milesimas de pulgada(mils)",
+ "Micras(mic)",  
 ]
-Grupos_por_Tipo_Producto =  {
-    "Rollo sin impresión": [
-        "ROLLO PEBD ORIGINAL-SIN IMPRESION-1101",
-        "ROLLO PEBD CORRIENTE-SIN IMPRESION-1102",
-        "ROLLO PEBD SEMIORIGINAL-SIN IMPRESION-1103",
-        "ROLLO PEBD COEXTRUIDO-SIN IMPRESION-1104",
-        "ROLLO PEAD ORIGINAL-SIN IMPRESION-1105",
-        "ROLLO PEAD CORRIENTE-SIN IMPRESION-1106",
-        "ROLLO PEBD TERMOENCOGIBLE-SIN IMPRESION-1107",
-        "ROLLO MOPP-SIN IMPRESION-1108",
-        "ROLLO BOPP-SIN IMPRESION-1109",
-        "ROLLO CASTPP-SIN IMPRESION-1111",
-        "ROLLO STRETCH-SIN IMPRESION-1112",
-        "ROLLO NEGRO SEMIORIGINAL-SIN IMPRESION-1122",
-        "ROLLO PEBD ANCHO-SIN IMPRESION-1120",
-        "ROLLO PEBD CORRIENTE ANCHO-SIN IMPRESION-1121",
-        "ROLLO SIN FIN PEBD ORIGINAL-SIN IMPRESION-1401",
-        "ROLLO CENEFA PEBD ORIGINAL-SIN IMPRESION-1501",
-    ],
-    "Rollo con impresión": [
-        "ROLLO PEBD ORIGINAL-1101",
-        "ROLLO PEBD CORRIENTE-1102",
-        "ROLLO PEBD SEMIORIGINAL-1103",
-        "ROLLO PEBD COEXTRUIDO-1104",
-        "ROLLO PEAD ORIGINAL-1105",
-        "ROLLO PEAD CORRIENTE-1106",
-        "ROLLO MOPP-1108",
-        "ROLLO BOPP-1109",
-        "ROLLO CASTPP-1111",
-        "ROLLO NEGRO SEMIORIGINAL-1122",
-    ],
-    "Rollo bilaminado sin impresión": [
-        "ROLLO LAMINADO-1600-BI-SIN IMPRESION",
-    ],
-    "Rollo bilaminado con impresión": [
-        "ROLLO LAMINADO-1600-BI",
-    ],
-    "Rollo trilaminado sin impresión": [
-        "ROLLO LAMINADO-1600-TRI- SIN IMPRESIÓN",
-    ],
-    "Rollo trilaminado con impresión": [
-        "ROLLO LAMINADO-1600-TRI",
-    ],
-    
-}
 Tipo_Bobinado: list = [
 "Tubular",
 "Semitubular",
@@ -149,6 +102,7 @@ Acabado: list = [
 "Liso",
 "Macro Perforado",
 "Micro Perforado",
+"Precorte",
 ]
 
 Tratado: list = [
@@ -182,13 +136,113 @@ Numero_Bobinado: list = [
    "23",
    "24"
 ]
+Grupos_por_Tipo_Producto =  {
+    "Rollo sin impresión": [
+        "ROLLO PEBD ORIGINAL-S.I-1101",
+        "ROLLO PEBD CORRIENTE-S.I-1102",
+        "ROLLO PEBD SEMIORIGINAL-S.I-1103",
+        "ROLLO PEBD COEXTRUIDO-S.I-1104",
+        "ROLLO PEAD ORIGINAL-S.I-1105",
+        "ROLLO PEAD CORRIENTE-S.I-1106",
+        "ROLLO PEBD TERMOENCOGIBLE-S.I-1107",
+        "ROLLO MOPP-S.I-1108",
+        "ROLLO BOPP-S.I-1109",
+        "ROLLO CASTPP-S.I-1111",
+        "ROLLO STRETCH-S.I-1112",
+        "ROLLO NEGRO SEMIORIGINAL-S.I-1122",
+        "ROLLO PEBD ANCHO-S.I-1120",
+        "ROLLO PEBD CORRIENTE ANCHO-S.I-1121",
+        "ROLLO SIN FIN PEBD ORIGINAL-S.I-1401",
+        "ROLLO CENEFA PEBD ORIGINAL-S.I-1501",
+    ],
+    "Rollo con impresión": [
+        "ROLLO PEBD ORIGINAL-C.I-1101",
+        "ROLLO PEBD CORRIENTE-C.I-1102",
+        "ROLLO PEBD SEMIORIGINAL-C.I-1103",
+        "ROLLO PEBD COEXTRUIDO-C.I-1104",
+        "ROLLO PEAD ORIGINAL-C.I-1105",
+        "ROLLO PEAD CORRIENTE-C.I-1106",
+        "ROLLO MOPP-C.I-1108",
+        "ROLLO BOPP-C.I-1109",
+        "ROLLO CASTPP-C.I-1111",
+        "ROLLO NEGRO SEMIORIGINAL-C.I-1122",
+        "ROLLO SIN FIN PEBD ORIGINAL-C.I-1401",
+        "ROLLO CENEFA PEBD ORIGINAL-C.I-1501",
+    ],
+    "Rollo bilaminado sin impresión": [
+        "ROLLO LAMINADO-1600-BI-S.I",
+    ],
+    "Rollo bilaminado con impresión": [
+        "ROLLO LAMINADO-1600-BI.C.I",
+    ],
+    "Rollo trilaminado sin impresión": [
+        "ROLLO LAMINADO-1600-TRI-S.I",
+    ],
+    "Rollo trilaminado con impresión": [
+        "ROLLO LAMINADO-1600-TRI-C.I",
+    ],
+    "Plástico para invernadero":[
+        "ROLLO PROVIAGRO ENERGY-1114",
+        "ROLLO PROVIAGRO LUMINANCE-1115",
+        "ROLLO PROVIAGRO SPECTRUM-1116",
+        "ROLLO PROVIAGRO CLOUDY-1117",
+        "ROLLO PROVIAGRO BLACK-1118",
+    ],
+    "Rollo acolchado/mulch":[
+       "ROLLO PROVIAGRO MULCH-1119",
+    ],
+
+    
+}
+
+Valores_predeterminados = {
+    "ROLLO PEBD TERMOENCOGIBLE-S.I-1107":{
+         "Color":"Transparente",
+     },
+     "ROLLO MOPP-S.I-1108":{
+         "Color":"Transparente",
+     },
+     "ROLLO STRETCH-S.I-1112":{
+         "Color":"Transparente",
+     },
+
+     "ROLLO PROVIAGRO ENERGY-1114":{
+         "Material_1":"Polietileno de Baja Densidad",
+         "Unidades_Calibre":"mils",  
+     },
+
+     "ROLLO PROVIAGRO LUMINANCE-1115":{
+        "Material_1":"Polietileno de Baja Densidad",
+         "Unidades_Calibre":"mils",   
+     },
+     "ROLLO PROVIAGRO SPECTRUM-1116":{
+       "Material_1":"Polietileno de Baja Densidad",
+        "Unidades_Calibre":"mils",   
+     },
+     "ROLLO PROVIAGRO CLOUDY-1117":{
+        "Material_1":"Polietileno de Baja Densidad",
+         "Unidades_Calibre":"mils",  
+     },
+      "ROLLO PROVIAGRO BLACK-1118":{
+         "Material_1":"Polietileno de Baja Densidad",
+          "Unidades_Calibre":"mils",   
+      },
+      "ROLLO PROVIAGRO MULCH-1119":{
+         "Material_1":"Polietileno de Baja Densidad",
+          "Unidades_Calibre":"mils",   
+      },      
+     }   
+ 
+
 
 # Configuración base para todos los campos
 valor_exepcional = {
+    "Material_1":True,
     "Material_2": True,
     "Material_3": True,
     "Color": True,
-    "Numero_bobinado": True,
+    "Peso_Estructura":True,
+    "Numero_Bobinado": True,
     "Fuelle_izquierdo": True,
     "Fuelle_derecho": True,
     "Acabado": True,
@@ -196,64 +250,139 @@ valor_exepcional = {
 }
 
 # Diccionario para almacenar configuraciones por tipo de producto
-campos_por_tipo = {}
+Campos_por_Tipo = {}
 
 # Excepciones por tipo de producto
 excepciones_por_tipo = {
-     "Rollo sin impresión": ["Material_2", "Material_3", "Color",  "Numero_bobinado"],
-     "Rollo con impresión": ["Material_2", "Material_3"],
+     "Rollo sin impresión": ["Material_2", "Material_3","Numero_Bobinado"],
+     "Rollo con impresión": ["Material_2", "Material_3","Acabado"],
+     "Plástico para invernadero":["Material_2", "Material_3", "Peso_Estructura", "Numero_Bobinado", "Acabado", "Tratado"],
+     "Rollo acolchado/mulch":["Peso_Estructura", "Numero_Bobinado", "Acabado", "Tratado"],
+
  }
 
 # Excepciones por grupo específico
 excepciones_por_grupo = {
     "Fuelle_izquierdo": [
-        "ROLLO PEBD TERMOENCOGIBLE-SIN IMPRESION-1107",
-        "ROLLO STRETCH-SIN IMPRESION-1112",
-        "ROLLO SIN FIN PEBD ORIGINAL-SIN IMPRESION-1401",
-        "ROLLO CENEFA PEBD ORIGINAL-SIN IMPRESION-1501",
+        "ROLLO PEBD TERMOENCOGIBLE-S.I-1107",
+        "ROLLO STRETCH-S.I-1112",
+        "ROLLO SIN FIN PEBD ORIGINAL-S.I-1401",
+        "ROLLO CENEFA PEBD ORIGINAL-S.I-1501",
+        "ROLLO MOPP-C.I-1108",
+        "ROLLO BOPP-C.I-1109",
+        "ROLLO SIN FIN PEBD ORIGINAL-C.I-1401",
+        "ROLLO CENEFA PEBD ORIGINAL-C.I-1501",
+        "ROLLO LAMINADO-1600-BI-S.I",
+        "ROLLO LAMINADO-1600-BI.C.I",
+        "ROLLO LAMINADO-1600-TRI-S.I",
+        "ROLLO LAMINADO-1600-TRI-C.I",
     ],
     "Fuelle_derecho": [
-        "ROLLO PEBD TERMOENCOGIBLE-SIN IMPRESION-1107",
-        "ROLLO MOPP-SIN IMPRESION-1108",
-        "ROLLO BOPP-SIN IMPRESION-1109",
-        "ROLLO CASTPP-SIN IMPRESION-1111",
-        "ROLLO STRETCH-SIN IMPRESION-1112",
+        "ROLLO PEBD TERMOENCOGIBLE-S.I-1107",
+        "ROLLO MOPP-S.I-1108",
+        "ROLLO BOPP-S.I-1109",
+        "ROLLO CASTPP-S.I-1111",
+        "ROLLO STRETCH-S.I-1112",
+        "ROLLO SIN FIN PEBD ORIGINAL-S.I-1401",
+        "ROLLO CENEFA PEBD ORIGINAL-S.I-1501",
+        "ROLLO MOPP-C.I-1108",
+        "ROLLO BOPP-C.I-1109",
+        "ROLLO SIN FIN PEBD ORIGINAL-C.I-1401",
+        "ROLLO CENEFA PEBD ORIGINAL-C.I-1501",
+        "ROLLO LAMINADO-1600-BI-S.I",
+        "ROLLO LAMINADO-1600-BI.C.I",
+        "ROLLO LAMINADO-1600-TRI-S.I",
+        "ROLLO LAMINADO-1600-TRI-C.I",
     ],
     "Acabado": [
-        "ROLLO STRETCH-SIN IMPRESION-1112",
+        "ROLLO STRETCH-S.I-1112",
+        "ROLLO PEBD TERMOENCOGIBLE-S.I-1107",
+        "ROLLO LAMINADO-1600-BI-S.I",
+        "ROLLO LAMINADO-1600-BI.C.I",
+        "ROLLO LAMINADO-1600-TRI-S.I",
+        "ROLLO LAMINADO-1600-TRI-C.I",
+        "ROLLO PEBD ANCHO-S.I-1120",
+        "ROLLO PEBD CORRIENTE ANCHO-S.I-1121",
     ],
     "Tratado": [
-        "ROLLO STRETCH-SIN IMPRESION-1112",
-        "ROLLO PEBD ANCHO-SIN IMPRESION-1120",
-        "ROLLO PEBD CORRIENTE ANCHO-SIN IMPRESION-1121",
+        "ROLLO PEBD TERMOENCOGIBLE-S.I-1107",
+        "ROLLO STRETCH-S.I-1112",
+        "ROLLO PEBD ANCHO-S.I-1120",
+        "ROLLO PEBD CORRIENTE ANCHO-S.I-1121",
+        "ROLLO LAMINADO-1600-BI-S.I",
+        "ROLLO LAMINADO-1600-BI.C.I",
+        "ROLLO LAMINADO-1600-TRI-S.I",
+        "ROLLO LAMINADO-1600-TRI-C.I",
+        "ROLLO LAMINADO-1600-TRI-C.I",
+        
+    ],
+    "Color":[
+       "ROLLO PEBD ORIGINAL-S.I-1101",
+        "ROLLO PEBD CORRIENTE-S.I-1102",
+        "ROLLO PEBD SEMIORIGINAL-S.I-1103",
+        "ROLLO PEBD COEXTRUIDO-S.I-1104",
+        "ROLLO PEAD ORIGINAL-S.I-1105",
+        "ROLLO PEAD CORRIENTE-S.I-1106",
+        "ROLLO BOPP-S.I-1109",
+        "ROLLO CASTPP-S.I-1111",
+        "ROLLO NEGRO SEMIORIGINAL-S.I-1122",
+        "ROLLO PEBD ANCHO-S.I-1120",
+        "ROLLO PEBD CORRIENTE ANCHO-S.I-1121",
+        "ROLLO SIN FIN PEBD ORIGINAL-S.I-1401",
+        "ROLLO CENEFA PEBD ORIGINAL-S.I-1501",
+        "ROLLO MOPP-C.I-1108",  
+    ],
+    "Numero_Bobinado":[
+       "ROLLO LAMINADO-1600-BI-S.I",
+       "ROLLO LAMINADO-1600-TRI-S.I",
+    ],
+    "Material_2":[
+      "ROLLO PROVIAGRO MULCH-1119",  
+    ],
+    "Material_3":[
+        "ROLLO PROVIAGRO MULCH-1119",
+        "ROLLO LAMINADO-1600-BI-S.I",
+        "ROLLO LAMINADO-1600-BI.C.I",
+
     ],
    
 }
 
 # Generar configuraciones base para todos los tipos y grupos
 for tipo_producto, grupos in Grupos_por_Tipo_Producto.items():
-    campos_por_tipo[tipo_producto] = {}
+    Campos_por_Tipo[tipo_producto] = {}
     for grupo in grupos:
         # Inicia cada grupo con la configuración base
-        campos_por_tipo[tipo_producto][grupo] = valor_exepcional.copy()
+        Campos_por_Tipo[tipo_producto][grupo] = valor_exepcional.copy()
 
 # Aplicar excepciones por tipo de producto
 for tipo_producto, campos in excepciones_por_tipo.items():
-     if tipo_producto in campos_por_tipo:
-         for grupo in campos_por_tipo[tipo_producto]:
+     if tipo_producto in Campos_por_Tipo:
+         for grupo in Campos_por_Tipo[tipo_producto]:
              for campo in campos:
-                campos_por_tipo[tipo_producto][grupo][campo] = False
+                Campos_por_Tipo[tipo_producto][grupo][campo] = False
 
 # Aplicar excepciones por grupo
 for campo, grupos in excepciones_por_grupo.items():
-    for tipo_producto, grupos_tipo in campos_por_tipo.items():
+    for tipo_producto, grupos_tipo in Campos_por_Tipo.items():
         for grupo in grupos_tipo:
             if grupo in grupos:
-                campos_por_tipo[tipo_producto][grupo][campo] = False
+                Campos_por_Tipo[tipo_producto][grupo][campo] = False
+
+                
+
+# # Aplicar valores predeterminados
+# for grupo, campos in valores_predeterminados.items():
+#     for tipo_producto, grupos_tipo in Campos_por_Tipo.items():
+#         if grupo in grupos_tipo:
+#             for campo, valor in campos.items():
+#                 if campo in Campos_por_Tipo[tipo_producto][grupo]:
+#                     Campos_por_Tipo[tipo_producto][grupo][campo] = valor
 
 # # Resultado final
-# import pprint
-# pprint.pprint(campos_por_tipo)
+import pprint
+  
+pprint.pprint(Campos_por_Tipo)
 
 
 

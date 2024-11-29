@@ -2,7 +2,7 @@ import reflex as rx
 from Proyecto11ultimate.components.crear_select import crear_select
 from Proyecto11ultimate.components.form_field import crear_forma
 from ..backend.backend import States_pagina
-from ..views.Listados import Grupo , Material, Color, Tipo_Producto, Grupos_por_Tipo_Producto,Unidades_Ancho,Unidades_Largo,Undiades_Calibre, Tipo_Bobinado, Acabado, Tratado, Numero_Bobinado
+from ..views.Listados import Grupo , Material, Color, Tipo_Producto, Grupos_por_Tipo_Producto,Unidades_Ancho,Unidades_Largo,Unidades_Calibre, Tipo_Bobinado, Acabado, Tratado, Numero_Bobinado
 from reflex.components.radix.themes.components.select import SelectItem
 
 
@@ -191,13 +191,16 @@ def rollo_form():
             ),
             
             # Selección de materiales
-            rx.text("Seleccione los materiales"),
-            rx.select(
+            crear_select(
+                "Material 1",
+                "Ingrese el Material 1",
+                "Material",
                 Material,
-                placeholder="Material 1",
-                name="Material_1",
-                required=True,
-            ),
+                is_visible=States_pagina.campos_visibles["Material_1"],
+                default_value=States_pagina.valores_campos["Material_1"]
+
+            ) ,
+            
             crear_select(
                 "Material 2",
                 "Ingrese el material 2",
@@ -217,42 +220,76 @@ def rollo_form():
             crear_select(
                 "Color",
                 "Ingrese el Color",
-                "",
-                Material,
-                is_visible=States_pagina.campos_visibles["Color"]
+                "Color",
+                Color,
+                is_visible=States_pagina.campos_visibles["Color"],
+                default_value=States_pagina.valores_campos["Color"]
+
             ) ,
             
             # Campos de dimensiones
-            crear_forma("Ancho", "Ingrese el Ancho", "number", "Ancho", "ruler", is_visible=True),
-            rx.hstack(
-                rx.select(
-                    Unidades_Ancho,
-                    placeholder="Elija la unidad del Ancho",
-                    name="Unidades Ancho",
-                    required=True,
-                ),
+            rx.flex(
+                 crear_forma("Ancho", "Ingrese el Ancho", "number", "Ancho", "ruler", is_visible=True),
+            
+                crear_select(
+                     "",
+                     "Unidades Ancho",
+                     "Unidades_Ancho",
+                     Unidades_Ancho,
+                     is_visible=True,
+                     default_value=States_pagina.valores_campos["Unidades_Ancho"],
+                
+                    ),  
+
+            
+                width="100%",
+                justify="center",
+                flex_wrap="nowrap",
+                direction="column",
             ),
-            crear_forma("Largo", "Ingrese el Largo", "number", "Largo", "ruler", is_visible=True),
-            rx.hstack(
-                rx.select(
-                    Unidades_Largo,
-                    placeholder="Unidad del Largo",
-                    name="Unidades Largo",
-                    required=True,
-                ),
+            rx.flex(
+                crear_forma("Largo", "Ingrese el Largo", "number", "Largo", "ruler", is_visible=True),
+                 crear_select(
+                     "",
+                     "unidades Largo",
+                     "Unidades_Largo",
+                     Unidades_Largo,
+                     is_visible=True,
+                     default_value=States_pagina.valores_campos["Unidades_Largo"],
+                
+                    ),  
+    
+                
+                width="100%",
+                justify="center",
+                flex_wrap="nowrap",
+                direction="column",
+           
             ),
-            crear_forma("Calibre", "Ingrese el Calibre", "number", "Calibre", "ruler", is_visible=True),
-            rx.hstack(
-                rx.select(
-                    Undiades_Calibre,
-                    placeholder="Unidad del Calibre",
-                    name="Unidades Calibre",
-                    required=True,
-                ),
+            
+           
+               
+               rx.flex(
+                      crear_forma("Calibre", "Calibre", "number", "Calibre", "ruler", is_visible=True),
+
+                      crear_select(
+                     "",
+                     "Unidades Calibre",
+                     "Unidades_Calibre",
+                     Unidades_Calibre,
+                     is_visible=True,
+                     default_value=States_pagina.valores_campos["Unidades_Calibre"],
+                
+                    ),    
+                   
+                width="100%",
+                justify="center",
+                flex_wrap="nowrap",
+                direction="column",
             ),
             
             # Peso
-            crear_forma("Peso por Estructura", "Ingrese el Peso", "number", "PesoPorRollo", "weight", is_visible= True),
+            crear_forma("Peso por Estructura", "Ingrese el Peso", "number", "Peso_Estructura", "weight", is_visible= States_pagina.campos_visibles["Peso_Estructura"]),
             
             # Tipo y Número de Bobinado
             rx.text("Tipo de Bobinado"),
@@ -266,16 +303,16 @@ def rollo_form():
             crear_select(
                 "Numero de Bobinado",
                 "Ingrese el numero de bobinado",
-                "numero_bobinado",
+                "Numero_Bobinado",
                 Numero_Bobinado,
-                is_visible=States_pagina.campos_visibles["Numero_bobinado"]
+                is_visible=States_pagina.campos_visibles["Numero_Bobinado"],
             ) ,
             
             
 
             crear_forma(
                 "Peso Rollo",
-                "Ingrese el perso por Rollo",
+                "Ingrese el peso por Rollo",
                 "str",
                 "Peso Rollo",
                 "ruler",
@@ -304,7 +341,7 @@ def rollo_form():
              crear_select(
                 "Acabado",
                 "Ingrese el tipo de Acabado",
-                "acabado",
+                "Acabado",
                 Acabado,
                 is_visible=States_pagina.campos_visibles["Acabado"]
             ) ,
@@ -314,7 +351,7 @@ def rollo_form():
                 "Tratado",
                 "Ingrese el tipo de tratado",
                 "tratado",
-                Numero_Bobinado,
+                Tratado,
                 is_visible=States_pagina.campos_visibles["Tratado"]
             ),
             
