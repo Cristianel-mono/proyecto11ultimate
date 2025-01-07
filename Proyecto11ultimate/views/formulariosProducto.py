@@ -1,7 +1,8 @@
 import reflex as rx
 from Proyecto11ultimate.components.crear_select import crear_select
-from Proyecto11ultimate.components.form_field import crear_forma
+from Proyecto11ultimate.components.crear_imput import crear_forma
 from ..backend.backend import States_pagina
+from ..components.CrearReferencias import State_Rollo
 from ..views.Listados import Grupo , Material, Color, Tipo_Producto, Grupos_por_Tipo_Producto,Unidades_Ancho,Unidades_Largo,Unidades_Calibre, Tipo_Bobinado, Acabado, Tratado, Numero_Bobinado
 from reflex.components.radix.themes.components.select import SelectItem
 
@@ -50,119 +51,147 @@ from reflex.components.radix.themes.components.select import SelectItem
 def bolsa_form():
     return rx.form(
         rx.vstack(
-            rx.text("Creación de referencia para Bolsas", weight="bold", size="xl"),
-            rx.text(
-                "Por favor complete los campos opcionales y seleccione las características del producto",
-                italic=True,
-                margin_bottom="1em",
-            ),
-            rx.text("Selecciona los parámetros opcionales que desea agregar a su bolsa", weight="bold"),
+            rx.text("Creación de referencia para Bolsas", weight="bold", size="4"),
             
-            # Checkbox para parámetros opcionales
-            # rx.hstack(
-            #      rx.heading(States_pagina.checkboxes),
-            #      rx.checkbox(
-            #     name="Fuelle_L",
-            #     label="Desea agregar Fuelle Lateral",
-            #     checked=States_pagina.checkboxes["Fuelle Lateral"],  
-            #     on_change=lambda checked: States_pagina.set_checkboxes("Fuelle Lateral", checked),  
-            # ),
-            # rx.text("Fuelle Lateral"),
-            # ),
-        #     rx.hstack(
-            
-        #     rx.checkbox(
-        #     name="Calibre",
-        #     label="Desea agregar Calibre",
-        #     on_change= States_pagina.update_checkbox("Calibre", True),
-        #    ), 
-        #    rx.text("Calibre") 
-        #    ),
-
-          
-            
-           
-            
-            # rx.checkbox(
-            #     name="Fuelle_Fondo",
-            #     label="Desea agregar Fuelle Fondo",
-            #     checked=States_pagina.checkboxes["Fuelle Fondo"],
-            #     on_change=lambda checked: States_pagina.set_checkboxes("Fuelle Fondo", checked),
-            # ),
-            # rx.checkbox(
-            #     name="Referencia",
-            #     label="Desea agregar Referencia",
-            #     checked=States_pagina.checkboxes["Referencia"],
-            #     on_change=lambda checked: States_pagina.set_checkboxes("Referencia", checked),
-            # ),
-
-            # Condiciones para mostrar los campos según el estado de las checkboxes
-            # rx.cond(
-            #     States_pagina.checkboxes == {"Fulle Lateral"},
-            #     form_field("Fuelle Lateral", "Ingrese el fuelle lateral", "number", "fuelle", "ruler")
-            # ),
-            # rx.cond(
-            #     States_pagina.checkboxes["Fuelle Fondo"],
-            #     form_field("Fuelle Fondo", "Ingrese el fuelle de fondo", "number", "fuelle_fondo", "ruler")
-            # ),
-            # rx.cond(
-            # States_pagina.checkbox_states["Calibre"],  # Esto revisará si es True directamente
-            # crear_forma("Calibre", "Ingrese el calibre (mm)", "number", "calibre", "ruler")
-            # ),
-            # rx.cond(
-            #     States_pagina.checkboxes["Referencia"],
-            #     form_field("Referencia", "Ingrese la referencia de la bolsa", "text", "referencia", "ruler")
-            # ),
-
               # Selección de material
-              rx.text("Selecciona el material de su Bolsa"),
-              rx.select(
+               crear_select(
+                "Ingrese el Material de su bolsa",
+                "Ingrese el Material",
+                "Material_1",
                 Material,
-                placeholder="Elige el material",
-                name="material",
-                required=True,
+                value=States_pagina.valores_campos["Material_1"],
+                required=False,
+                is_visible=True,
+                on_change=lambda e: State_Rollo.actualizar_campo("Material_1", e),
             ),
-            # Selección de color
-            # rx.text("Seleccione el color"),
-            # rx.select(
-            #     [Color],
-            #     placeholder="Elige el color",
-            #     name="color",
-            #     required=True,  
-            # ),
-
+        
             # Campos adicionales
-            crear_forma("Ancho (cm)", "Ingrese el Ancho", "number", "ancho", "ruler"),
-            crear_forma("Largo (cm)", "Ingrese el Largo", "number", "largo", "ruler")
-        )
-    )
+            crear_forma("Ancho (cm)", "Ingrese el Ancho", "number", "ancho", "ruler", is_visible=True),
+            crear_select(
+                    "Unidades Ancho",
+                    "Ingrese las unidades",
+                    "Unidades_Ancho",
+                    Unidades_Ancho,
+                    States_pagina.valores_campos["Unidades_Ancho"],
+                    required=True,
+                    on_change=lambda e: State_Rollo.actualizar_campo("Unidades_Ancho", e),
+                ),
+            crear_forma("Largo (cm)", "Ingrese el Largo", "number", "largo", "ruler", is_visible=True),
+            crear_select(
+                    "Unidades Ancho",
+                    "Ingrese las unidades",
+                    "Unidades_Ancho",
+                    Unidades_Ancho,
+                    States_pagina.valores_campos["Unidades_Ancho"],
+                    required=True,
+                    on_change=lambda e: State_Rollo.actualizar_campo("Unidades_Ancho", e),
+                ),
+           
+                crear_forma("Calibre", "Ingrese el Calibre", "number", "Calibre", "ruler", is_visible=True,on_change=lambda e: State_Rollo.actualizar_campo("Calibre", e)),
+                crear_select(
+                    "Unidades Calibre",
+                    "Ingrese las unidades",
+                    "Unidades_Calibre",
+                    Unidades_Calibre,
+                    States_pagina.valores_campos["Unidades_Calibre"],
+                    required=True,
+                    on_change=lambda e: State_Rollo.actualizar_campo("Unidades_Calibre", e),
+                   
+                ),
+                 crear_forma(
+                "Fuelle Lateral",
+                "Ingrese el Fuelle Lateral",
+                "number",
+                "Fuelle_Izquierdo",
+                "ruler",
+                is_visible=States_pagina.campos_visibles["Fuelle_izquierdo"],
+                on_change=lambda e: State_Rollo.actualizar_campo("Fuelle_Izquierdo", e),
+                ),
+                crear_forma(
+                    "Fuelle Frontal",
+                    "Ingrese el Fuelle Frontal",
+                    "number",
+                    "Fuelle_Derecho",
+                    "ruler",
+                    is_visible=States_pagina.campos_visibles["Fuelle_derecho"],
+                    on_change=lambda e: State_Rollo.actualizar_campo("Fuelle_derecho", e),
+                ),
+                crear_forma(
+                    "Referencia",
+                    "Ingrese la Referencia",
+                    "Str",
+                    "Referencia",
+                    "ruler",
+                    is_visible=States_pagina.campos_visibles["Fuelle_derecho"],
+                    on_change=lambda e: State_Rollo.actualizar_campo("Fuelle_derecho", e),
+                ),
+                crear_forma("Código Siigo", "Ingrese el Código Siigo", "number", "Codigo_Siigo", "ruler", is_visible=True),
+                    
+                    #Boton de creacion de referencias 
+                    rx.hstack(
+                        rx.button("Crear Referencias",variant="soft", color_scheme="yellow"),
+                        on_click=lambda: State_Rollo.actualizar_form_data,
+                        type="button",
+                        
+                        
+                    ),
+                    
+                    #crear_forma("Referencia Provispol","", "str","Referencia_Provispol","ruler", default_value=State_Rollo.referencia_str, is_visible=True),
+                
+                rx.input(
+                    placeholder="Referencia Provispol",
+                    value=State_Rollo.referencia_str,  # Vincular el valor al estado
+                    is_visible=True,
+                    style={
+                        "height": "40px",  # Altura consistente
+                        "width": "100%",  # Ancho completo
+                        "padding": "8px",  # Espaciado interno
+                        "font-size": "14px",  # Tamaño de fuente uniforme
+                        "border-radius": "4px",  # Bordes redondeados
+                        "border": "1px solid #ccc",  # Borde estándar
+                        "box-shadow": "none",  # Evitar resaltado por sombra
+                        "outline": "none",  # Evitar foco adicional
+                    },
+                ),
+
+                                
+                    # Botones de acción
+                    rx.flex(
+                        rx.dialog.close(
+                            rx.button("Cancelar", variant="soft", color_scheme="gray"),
+                        ),
+                        rx.form.submit(
+                            rx.dialog.close(rx.button("Agregar Referencia")),
+                            as_child=True,
+                            type="submit",
+                        ),
+                        padding_top="2em",
+                        spacing="3",
+                        mt="4",
+                        justify="end",
+                    ),
+        ),
+        width="100%",
+        direction="column",
+        spacing="4",
+        max_width="450px",
+        padding="1.5em",
+        border_radius="25px",
+    ) 
+    
 
 # Convertir claves y grupos a una lista de diccionarios
 # Opciones iniciales para el selector de tipo de producto
 
 items_tipo_producto: list = list(Grupos_por_Tipo_Producto.keys()),
 items_grupo = States_pagina.grupos_disponibles  # Sin transformar a diccionarios
-# is_visible_numero_bobinado = States_pagina.campos_visibles["numero_bobinado"],
-# def mostrar_ocultar(campo, is_visible):
-#     return rx.cond(
-#        is_visible,
-#        campo,
-#        None
-#     )
-# numero_bobinado = rx.select(
-#                 Numero_Bobinado,
-#                 placeholder="Número de Bobinado",
-#                 name="Número Bobinado",
-#                 required=False,
-                
-#             ),
+      
 
-  
 def rollo_form():
     return rx.form(
         rx.vstack(
             # Título del formulario
-            rx.text("Creación de referencia para Rollos", weight="bold", size="xl"),
+            rx.text("Creación de referencia para Rollos", weight="bold", size="3"),
             rx.text(
                 "Por favor complete los campos opcionales y seleccione las características del producto",
                 italic=True,
@@ -170,18 +199,25 @@ def rollo_form():
             ),
             rx.text("Selecciona los parámetros que desea agregar:", weight="bold"),
             
-            # Selección del Tipo de Producto
-            rx.text("Seleccione el Tipo de Producto"),
+                    # Selección del Tipo de Producto
+                    rx.flex(
+            rx.text("Seleccione el Tipo de Producto", font_weight="bold", margin_bottom="0.5em"),
             rx.select(
                 Tipo_Producto,  # Opciones del tipo de producto
                 placeholder="Elija el Tipo de Producto",
                 name="Tipo_Producto",
                 required=True,
-                on_change=States_pagina.actualizar_tipo_producto,  # Actualizar dinámicamente
+                on_change=States_pagina.actualizar_tipo_producto,
+                #on_change=lambda e:  State_Rollo.actualizar_campo("Tipo_Producto", e),
             ),
-            
-            # Selección de Grupo
-            rx.text("Seleccione el Grupo"),
+            width="100%",
+            justify="center",
+            flex_wrap="nowrap",
+            direction="column",
+        ),
+
+        rx.flex(
+            rx.text("Seleccione el Grupo", font_weight="bold", margin_bottom="0.5em"),
             rx.select(
                 items=items_grupo,
                 placeholder="Elija el Grupo",
@@ -189,175 +225,217 @@ def rollo_form():
                 required=True,
                 on_change=States_pagina.actualizar_grupo,
             ),
+            width="100%",
+            justify="center",
+            flex_wrap="nowrap",
+            direction="column",
+        ),
+
+        
             
-            # Selección de materiales
             crear_select(
                 "Material 1",
                 "Ingrese el Material 1",
-                "Material",
+                "Material_1",
                 Material,
-                is_visible=States_pagina.campos_visibles["Material_1"],
-                default_value=States_pagina.valores_campos["Material_1"]
+                value=States_pagina.valores_campos["Material_1"],
+                required=False,
+                is_visible=True,
+                on_change=lambda e: State_Rollo.actualizar_campo("Material_1", e),
+            ),
+        
 
-            ) ,
-            
             crear_select(
                 "Material 2",
-                "Ingrese el material 2",
-                "",
+                "Ingrese el Material 2",
+                "Material_2",
                 Material,
-                is_visible=States_pagina.campos_visibles["Material_2"]
+                States_pagina.valores_campos["Material_2"],
+                required=False,
+                is_visible=States_pagina.campos_visibles["Material_2"],
+                on_change=lambda e: State_Rollo.actualizar_campo("Material_2", e),
             ),
             crear_select(
                 "Material 3",
-                "Ingrese el material 3",
-                "",
+                "Ingrese el Material 3",
+                "Material_3",
                 Material,
-                is_visible=States_pagina.campos_visibles["Material_3"]
+                States_pagina.valores_campos["Material_3"],
+                required=False,
+                is_visible=States_pagina.campos_visibles["Material_3"],
+                on_change=lambda e: State_Rollo.actualizar_campo("Material_3", e),
             ),
             
-            # Selección de color 
+            # Selección de Color
             crear_select(
                 "Color",
                 "Ingrese el Color",
                 "Color",
                 Color,
+                value=States_pagina.valores_campos["Color"],
+                required=False,
                 is_visible=States_pagina.campos_visibles["Color"],
-                default_value=States_pagina.valores_campos["Color"]
-
-            ) ,
+                on_change=lambda e: State_Rollo.actualizar_campo("Color", e),
+                
+                
+            ),
             
             # Campos de dimensiones
             rx.flex(
-                 crear_forma("Ancho", "Ingrese el Ancho", "number", "Ancho", "ruler", is_visible=True),
-            
+                crear_forma("Ancho", "Ingrese el Ancho", "number", "Ancho", "ruler", is_visible=True,on_change=lambda e: State_Rollo.actualizar_campo("Ancho", e)),
+                
                 crear_select(
-                     "",
-                     "Unidades Ancho",
-                     "Unidades_Ancho",
-                     Unidades_Ancho,
-                     is_visible=True,
-                     default_value=States_pagina.valores_campos["Unidades_Ancho"],
-                
-                    ),  
-
-            
+                    "Unidades Ancho",
+                    "Ingrese las unidades",
+                    "Unidades_Ancho",
+                    Unidades_Ancho,
+                    States_pagina.valores_campos["Unidades_Ancho"],
+                    required=True,
+                    on_change=lambda e: State_Rollo.actualizar_campo("Unidades_Ancho", e),
+                ),
                 width="100%",
                 justify="center",
                 flex_wrap="nowrap",
                 direction="column",
             ),
+            
             rx.flex(
-                crear_forma("Largo", "Ingrese el Largo", "number", "Largo", "ruler", is_visible=True),
-                 crear_select(
-                     "",
-                     "unidades Largo",
-                     "Unidades_Largo",
-                     Unidades_Largo,
-                     is_visible=True,
-                     default_value=States_pagina.valores_campos["Unidades_Largo"],
-                
-                    ),  
-    
-                
+                crear_forma("Largo", "Ingrese el Largo", "number", "Largo", "ruler", is_visible=True,on_change=lambda e: State_Rollo.actualizar_campo("Largo", e)),
+                crear_select(
+                    "Unidades Largo",
+                    "Ingrese las unidades",
+                    "Unidades_Largo",
+                    Unidades_Largo,
+                    States_pagina.valores_campos["Unidades_Largo"],
+                    required=True,
+                    on_change=lambda e: State_Rollo.actualizar_campo("Unidades_Largo", e),
+                ),
                 width="100%",
                 justify="center",
                 flex_wrap="nowrap",
                 direction="column",
-           
             ),
             
-           
-               
-               rx.flex(
-                      crear_forma("Calibre", "Calibre", "number", "Calibre", "ruler", is_visible=True),
-
-                      crear_select(
-                     "",
-                     "Unidades Calibre",
-                     "Unidades_Calibre",
-                     Unidades_Calibre,
-                     is_visible=True,
-                     default_value=States_pagina.valores_campos["Unidades_Calibre"],
-                
-                    ),    
+            rx.flex(
+                crear_forma("Calibre", "Ingrese el Calibre", "number", "Calibre", "ruler", is_visible=True,on_change=lambda e: State_Rollo.actualizar_campo("Calibre", e)),
+                crear_select(
+                    "Unidades Calibre",
+                    "Ingrese las unidades",
+                    "Unidades_Calibre",
+                    Unidades_Calibre,
+                    States_pagina.valores_campos["Unidades_Calibre"],
+                    required=True,
+                    on_change=lambda e: State_Rollo.actualizar_campo("Unidades_Calibre", e),
                    
+                ),
                 width="100%",
                 justify="center",
                 flex_wrap="nowrap",
                 direction="column",
             ),
             
-            # Peso
-            crear_forma("Peso por Estructura", "Ingrese el Peso", "number", "Peso_Estructura", "weight", is_visible= States_pagina.campos_visibles["Peso_Estructura"]),
+            # Peso por Estructura
+            crear_forma("Peso por Estructura", "Ingrese el Peso", "number", "Peso_Estructura", "weight", is_visible=States_pagina.campos_visibles["Peso_Estructura"]),
             
             # Tipo y Número de Bobinado
-            rx.text("Tipo de Bobinado"),
-            rx.select(
-                Tipo_Bobinado,
-                placeholder="Tipo de Bobinado",
-                name="Tipo Bobinado",
-                required=True,
-            ),
-            # numero_bobinado =
             crear_select(
-                "Numero de Bobinado",
-                "Ingrese el numero de bobinado",
+                "Tipo de Bobinado",
+                "Tipo de Bobinado",
+                "Tipo_Bobinado",
+                Tipo_Bobinado,
+                States_pagina.valores_campos["Tipo_Bobinado"],
+                required=True,
+                #is_visible=States_pagina.campos_visibles["Tipo_Bobinado"],
+                on_change=lambda e: State_Rollo.actualizar_campo("Tipo_Bobinado", e),
+            ),
+            crear_select(
+                "Número de Bobinado",
+                "Ingrese el número de bobinado",
                 "Numero_Bobinado",
                 Numero_Bobinado,
+                States_pagina.valores_campos["Numero_Bobinado"],
+                required=True,
                 is_visible=States_pagina.campos_visibles["Numero_Bobinado"],
-            ) ,
-            
-            
-
-            crear_forma(
-                "Peso Rollo",
-                "Ingrese el peso por Rollo",
-                "str",
-                "Peso Rollo",
-                "ruler",
-                is_visible = True,
             ),
+            
+            # Peso Rollo
+            crear_forma("Peso Rollo", "Ingrese el peso por Rollo", "str", "Peso Rollo", "ruler", is_visible=True),
             
             # Fuelle Izquierdo y Derecho
             crear_forma(
                 "Fuelle Izquierdo",
                 "Ingrese el Fuelle Izquierdo",
                 "number",
-                "Fuelle Izquierdo",
+                "Fuelle_Izquierdo",
                 "ruler",
-                is_visible= States_pagina.campos_visibles["Fuelle_izquierdo"],
+                is_visible=States_pagina.campos_visibles["Fuelle_izquierdo"],
+                on_change=lambda e: State_Rollo.actualizar_campo("Fuelle_Izquierdo", e),
             ),
             crear_forma(
                 "Fuelle Derecho",
                 "Ingrese el Fuelle Derecho",
                 "number",
-                "Fuelle Derecho",
+                "Fuelle_Derecho",
                 "ruler",
                 is_visible=States_pagina.campos_visibles["Fuelle_derecho"],
+                on_change=lambda e: State_Rollo.actualizar_campo("Fuelle_derecho", e),
             ),
             
             # Acabado
-             crear_select(
+            crear_select(
                 "Acabado",
                 "Ingrese el tipo de Acabado",
                 "Acabado",
                 Acabado,
-                is_visible=States_pagina.campos_visibles["Acabado"]
-            ) ,
+                States_pagina.valores_campos["Acabado"],
+                required=False,
+                is_visible=States_pagina.campos_visibles["Acabado"],
+                on_change=lambda e: State_Rollo.actualizar_campo("Acabado", e)
+            ),
             
             # Tratado
-              crear_select(
+            crear_select(
                 "Tratado",
                 "Ingrese el tipo de tratado",
-                "tratado",
+                "Tratado",
                 Tratado,
-                is_visible=States_pagina.campos_visibles["Tratado"]
+                States_pagina.valores_campos["Tratado"],
+                required=False,
+                is_visible=States_pagina.campos_visibles["Tratado"],
+                on_change=lambda e: State_Rollo.actualizar_campo("Tratato", e)
             ),
             
             # Código Siigo
-            crear_forma("Código Siigo", "Ingrese el Código Siigo", "number", "Codigo_Siigo", "ruler", is_visible= True),
+            crear_forma("Código Siigo", "Ingrese el Código Siigo", "number", "Codigo_Siigo", "ruler", is_visible=True),
             
+            #Boton de creacion de referencias 
+            rx.hstack(
+                rx.button("Crear Referencias",variant="soft", color_scheme="yellow"),
+                on_click=lambda: State_Rollo.actualizar_form_data,
+                type="button",
+                
+                
+            ),
+            
+            #crear_forma("Referencia Provispol","", "str","Referencia_Provispol","ruler", default_value=State_Rollo.referencia_str, is_visible=True),
+           
+         rx.input(
+            placeholder="Referencia Provispol",
+            value=State_Rollo.referencia_str,  # Vincular el valor al estado
+            is_visible=True,
+            style={
+                "height": "40px",  # Altura consistente
+                "width": "100%",  # Ancho completo
+                "padding": "8px",  # Espaciado interno
+                "font-size": "14px",  # Tamaño de fuente uniforme
+                "border-radius": "4px",  # Bordes redondeados
+                "border": "1px solid #ccc",  # Borde estándar
+                "box-shadow": "none",  # Evitar resaltado por sombra
+                "outline": "none",  # Evitar foco adicional
+            },
+        ),
+
+                        
             # Botones de acción
             rx.flex(
                 rx.dialog.close(
@@ -366,6 +444,9 @@ def rollo_form():
                 rx.form.submit(
                     rx.dialog.close(rx.button("Agregar Referencia")),
                     as_child=True,
+                    type="submit",
+                    #on_click = lambda: States_pagina.agregarProducto_to_db(),
+                     
                 ),
                 padding_top="2em",
                 spacing="3",
@@ -373,8 +454,9 @@ def rollo_form():
                 justify="end",
             ),
         ),
+        #on_submit=State_Rollo.actualizar_form_data,
         on_submit=States_pagina.agregarProducto_to_db,
-        reset_on_submit=False,
+        reset_on_submit=True,
         width="100%",
         direction="column",
         spacing="4",
@@ -383,10 +465,11 @@ def rollo_form():
         border_radius="25px",
     )
 
+
 def rolloProviAgro_form():
     return rx.form(
         rx.vstack(
-         rx.text("Creacion de referencia para Rollos Proviagro", weight="bold", size="xl"),
+         rx.text("Creacion de referencia para Rollos Proviagro", weight="bold", size="2"),
         rx.text(
             "Por favor complete los campos opcionales y selecione las caracteristicas del producto",
             italic=True,
@@ -425,7 +508,7 @@ def rolloProviAgro_form():
 def servicio_form():
     return rx.form(
     rx.vstack(
-         rx.text("Creacion de referencia para Servicios", weight="bold", size="xl"),
+         rx.text("Creacion de referencia para Servicios", weight="bold", size="2"),
         rx.text(
             "Por favor complete los campos opcionales y selecione las caracteristicas del producto",
             italic=True,

@@ -2,7 +2,7 @@ import reflex as rx
 
 from Proyecto11ultimate.views.formulariosProducto import bolsa_form , rollo_form , rolloProviAgro_form , servicio_form
 from ..backend.backend import States_pagina
-from ..components.form_field import crear_forma
+from ..components.crear_imput import crear_forma
 from ..backend.productos_model import Rollo 
 
 def base_form():
@@ -17,7 +17,7 @@ def base_form():
 
     # Renderizado del formulario base
     return rx.fragment(
-        rx.text("Creación de Referencias", weight="bold", size="2xl", margin_bottom="1em"),
+        rx.text("Creación de Referencias", weight="bold", size="3", margin_bottom="1em"),
         rx.text("Seleccione el tipo de producto:", weight="bold"),
         product_type_radio,
 
@@ -105,7 +105,7 @@ def mostrar_productos(rollo:Rollo):
     """Muestra un producto en una fila de la tabla."""
     return rx.table.row(
         rx.table.cell(rollo.Grupo),
-        rx.table.cell(rollo.Material),
+        rx.table.cell(rollo.Material_1),
         rx.table.cell(rollo.Color),
         rx.table.cell(rollo.Codigo_Siigo),
         rx.table.cell(rollo.fecha),
@@ -123,7 +123,26 @@ def mostrar_productos(rollo:Rollo):
         align="center",
     )
 
-
+def mostrar_productos_eliminados(rollo:Rollo):
+    """Muestra un producto en una fila de la tabla."""
+    return rx.table.row(
+        rx.table.cell(rollo.Tipo_Producto),
+        rx.table.cell(rollo.Grupo),
+        rx.table.cell(rollo.Material_1),
+        rx.table.cell(rollo.Color),
+        rx.table.cell(rollo.Ancho),
+        rx.table.cell(rollo.Calibre),
+        rx.table.cell(rollo.Largo),
+        rx.table.cell(rollo.Acabado),
+        rx.table.cell(rollo.Tratado),
+        rx.table.cell(rollo.Codigo_Siigo),
+        rx.table.cell(rollo.fecha),
+      
+       
+        # Estilo aplicado al nivel de la fila
+        style={"_hover": {"bg": rx.color("gray", 3)}},
+        align="center",
+    )
 
 
 
@@ -181,5 +200,67 @@ def main_table():
             size="3",
             width="100%",
             on_mount=States_pagina.cargar_productos,
+        ),
+    )
+def table_productos_eliminados():
+    return rx.fragment(
+        rx.flex(
+            rx.spacer(),
+            rx.cond(
+                   States_pagina.order_table,
+                 rx.icon(
+                    "arrow-down-z-a",
+                    size=28,
+                    stroke_width=1.5,
+                    cursor="pointer",
+                    on_click=States_pagina.alternar_orden,
+                    ),
+                ),
+            rx.select(
+                ["Codigo_Siigo", "Material", "fecha", "Grupo"],
+                placeholder="Buscar valor",
+                size="3",
+                on_change=lambda value: States_pagina.filtrar_valores(value),
+            ),
+            rx.input(
+                rx.input.slot(rx.icon("search")),
+                placeholder="Buscar aquí",
+                size="3",
+                max_width="225px",
+                width="100%",
+                variant="surface",
+                on_change=lambda value: States_pagina.filtrar_valores(value),
+            ),
+            justify="end",
+            align="center",
+            spacing="2",
+            wrap="wrap",
+            width="100%",
+            padding_bottom="1em",
+        ),
+        rx.table.root(
+            rx.table.header(
+                rx.table.row(
+                  _header_cell("Tipo Producto", "ruler"),  
+                  _header_cell("Grupo", "ruler"),
+                  _header_cell("Material", "ruler"),
+                  _header_cell("Color", "ruler"),
+                  _header_cell("Ancho", "ruler"),
+                  _header_cell("Calibre", "ruler"),
+                  _header_cell("Largo", "ruler"),
+                  _header_cell("Acabado", "ruler"),
+                  _header_cell("Tratado", "ruler"),
+                  _header_cell("Codigo Siigo", "ruler"),
+                  _header_cell("Fecha", "ruler"),
+
+                 
+                ),
+            ),
+            
+            rx.table.body(rx.foreach(States_pagina.rollos, mostrar_productos_eliminados)),
+            variant="surface",
+            size="3",
+            width="100%",
+            on_mount=States_pagina.cargar_productos_eliminados,
         ),
     )

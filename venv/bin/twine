@@ -1,4 +1,4 @@
-#!/home/systemas/Documentos/Proyecto11ultimate/venv/bin/python3
+#!/home/cristian/Documentos/proyecto11ultimate/proyecto11ultimate/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

@@ -1,6 +1,7 @@
 import reflex as rx
 from .views.navbar import navbar
 from .views.table import main_table
+from .ProductosEliminados import ProductosEliminados
 from .backend.backend import States_pagina
 
 
@@ -21,7 +22,7 @@ def index() -> rx.Component:
 
 app = rx.App(
     theme=rx.theme(
-        appearance="dark", has_background=True, radius="large", accent_color="blue"
+         has_background=True, radius="large", accent_color="blue"
     ),
 )
 
@@ -29,4 +30,9 @@ app.add_page(
     index,
     title="Provispol S.A",
     description="A simple app to manage customer data.",
+)
+app.add_page(
+    ProductosEliminados,
+    title='Productos eliminados',
+    description='se muestran los productos eliminados',
 )

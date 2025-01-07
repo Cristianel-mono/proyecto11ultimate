@@ -74,20 +74,20 @@ Tipo_Producto: list = [
 ]
 #preguntar si estan bien las unidades de esta manera 
 Unidades_Ancho: list[str] = [
-"Centimetros(cm)",
-"Milimetros(cm)",
+"Centímetros(cm)",
+"Milímetros(mm)",
 "Pulgadas(in)",
 
 ]
 Unidades_Largo: list = [
-"Centimetros(cm)",
-"Milimetros(cm)",
+"Centímetros(cm)",
+"Milímetros(mm)",
 "Pulgadas(in)",
 "Metros(m)",
   
 ]
 Unidades_Calibre: list = [
- "Milesimas de pulgada(mils)",
+ "Milésimas de pulgada(mils)",
  "Micras(mic)",  
 ]
 Tipo_Bobinado: list = [
@@ -208,7 +208,7 @@ Valores_predeterminados = {
 
      "ROLLO PROVIAGRO ENERGY-1114":{
          "Material_1":"Polietileno de Baja Densidad",
-         "Unidades_Calibre":"mils",  
+         "Unidades_Calibre":"Micras(mic)",  
      },
 
      "ROLLO PROVIAGRO LUMINANCE-1115":{
