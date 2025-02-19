@@ -25,8 +25,9 @@ class Rollo(rx.Model, table=True):
      Acabado: Optional[str] = None
      Tratado: Optional[str] = None
      fecha: str
-     Codigo_Siigo:int = Field(default=None, primary_key=True)
+     Referencia: Optional[str] = None
+     Referencia_Provispol: str
+     Codigo_Siigo: str = Field(primary_key=True)
      estado_eliminado: bool = Field(default=False)
-     Referencia_Provispol: str = Field(default="SIN_REFERENCIA")
-
+     
 #recordar arreglar el problema de codigo siigo que es auto incrementable

@@ -61,7 +61,7 @@ Color: list = [
     "Plata-Negro"
 ]
 
-Tipo_Producto: list = [
+Tipo_Producto_Rollos: list = [
     "Rollo sin impresión", 
     "Rollo con impresión", 
     "Rollo bilaminado sin impresión", 
@@ -71,6 +71,10 @@ Tipo_Producto: list = [
     "Plástico para invernadero",
     "Rollo acolchado/mulch", 
     
+]
+Tipos_Productos_Bolsas: list =[
+    "Bolsa con Impresión",
+    "otros",
 ]
 #preguntar si estan bien las unidades de esta manera 
 Unidades_Ancho: list[str] = [
@@ -95,6 +99,7 @@ Tipo_Bobinado: list = [
 "Semitubular",
 "Lámina",
 "Lámina doble",
+"Total Lamina",
 ]
 
 Acabado: list = [
@@ -136,6 +141,40 @@ Numero_Bobinado: list = [
    "23",
    "24"
 ]
+Tipo_Bolsa: list = [
+    "Doy pack",
+    "Flow Pack-selle inferior",
+    "Flow Pack-selle superior",
+    "Estándar",
+    "Selles planos"
+]
+
+Tipo_Selle: list = [
+    "2 sellés planos",
+    "3 selles planos",
+    "4 selles planos",
+    "Camiseta",
+    "Corte",
+    "Doble fondo",
+    "Fondo",
+    "Lateral",
+    "Precorte"
+]
+
+Tipo_Troquel: list = [
+    "Banana",
+    "Camiseta",
+    "Circular 5mm",
+    "Circular 8mm",
+    "Eurohole",
+    "Circular 30mm"
+]
+Tipo_Solapa: list = [
+    "Solapa Doble Interna",
+    "Solapa Externa",
+    "Solapa Interna"
+]
+
 Grupos_por_Tipo_Producto =  {
     "Rollo sin impresión": [
         "ROLLO PEBD ORIGINAL-S.I-1101",
@@ -192,6 +231,13 @@ Grupos_por_Tipo_Producto =  {
        "ROLLO PROVIAGRO MULCH-1119",
     ],
 
+    #BOLSAS
+    "Bolsa con Impresión":[
+        "BOLSA PEBD ORIGINAL - 1201",
+        "BOLSA PEBD CORRIENTE-1202",
+        "BOLSA PEAD ORIGINAL-1205",
+        "BOLSA MOPP-1208",
+    ]
     
 }
 
@@ -208,28 +254,34 @@ Valores_predeterminados = {
 
      "ROLLO PROVIAGRO ENERGY-1114":{
          "Material_1":"Polietileno de Baja Densidad",
-         "Unidades_Calibre":"Micras(mic)",  
+         "Unidades_Calibre":"Milésimas de pulgada(mils)",
+         "Unidades_Largo":"Metros(m)",   
      },
 
      "ROLLO PROVIAGRO LUMINANCE-1115":{
         "Material_1":"Polietileno de Baja Densidad",
-         "Unidades_Calibre":"mils",   
+         "Unidades_Calibre":"Milésimas de pulgada(mils)",
+         "Unidades_Largo":"Metros(m)",    
      },
      "ROLLO PROVIAGRO SPECTRUM-1116":{
        "Material_1":"Polietileno de Baja Densidad",
-        "Unidades_Calibre":"mils",   
+        "Unidades_Calibre":"Milésimas de pulgada(mils)",
+        "Unidades_Largo":"Metros(m)",    
      },
      "ROLLO PROVIAGRO CLOUDY-1117":{
         "Material_1":"Polietileno de Baja Densidad",
-         "Unidades_Calibre":"mils",  
+         "Unidades_Calibre":"Milésimas de pulgada(mils)",
+         "Unidades_Largo":"Metros(m)",   
      },
       "ROLLO PROVIAGRO BLACK-1118":{
          "Material_1":"Polietileno de Baja Densidad",
-          "Unidades_Calibre":"mils",   
+          "Unidades_Calibre":"Milésimas de pulgada(mils)",
+          "Unidades_Largo":"Metros(m)",   
       },
       "ROLLO PROVIAGRO MULCH-1119":{
          "Material_1":"Polietileno de Baja Densidad",
-          "Unidades_Calibre":"mils",   
+          "Unidades_Calibre":"Milésimas de pulgada(mils)", 
+          "Unidades_Largo":"Metros(m)",   
       },      
      }   
  
@@ -258,11 +310,11 @@ excepciones_por_tipo = {
      "Rollo con impresión": ["Material_2", "Material_3","Acabado"],
      "Plástico para invernadero":["Material_2", "Material_3", "Peso_Estructura", "Numero_Bobinado", "Acabado", "Tratado"],
      "Rollo acolchado/mulch":["Peso_Estructura", "Numero_Bobinado", "Acabado", "Tratado"],
-
+     
  }
 
 # Excepciones por grupo específico
-excepciones_por_grupo = {
+excepciones_rollos = {
     "Fuelle_izquierdo": [
         "ROLLO PEBD TERMOENCOGIBLE-S.I-1107",
         "ROLLO STRETCH-S.I-1112",
@@ -317,19 +369,19 @@ excepciones_por_grupo = {
         
     ],
     "Color":[
-       "ROLLO PEBD ORIGINAL-S.I-1101",
-        "ROLLO PEBD CORRIENTE-S.I-1102",
-        "ROLLO PEBD SEMIORIGINAL-S.I-1103",
-        "ROLLO PEBD COEXTRUIDO-S.I-1104",
-        "ROLLO PEAD ORIGINAL-S.I-1105",
-        "ROLLO PEAD CORRIENTE-S.I-1106",
-        "ROLLO BOPP-S.I-1109",
-        "ROLLO CASTPP-S.I-1111",
-        "ROLLO NEGRO SEMIORIGINAL-S.I-1122",
-        "ROLLO PEBD ANCHO-S.I-1120",
-        "ROLLO PEBD CORRIENTE ANCHO-S.I-1121",
-        "ROLLO SIN FIN PEBD ORIGINAL-S.I-1401",
-        "ROLLO CENEFA PEBD ORIGINAL-S.I-1501",
+    #    "ROLLO PEBD ORIGINAL-S.I-1101",
+    #     "ROLLO PEBD CORRIENTE-S.I-1102",
+    #     "ROLLO PEBD SEMIORIGINAL-S.I-1103",
+    #     "ROLLO PEBD COEXTRUIDO-S.I-1104",
+    #     "ROLLO PEAD ORIGINAL-S.I-1105",
+    #     "ROLLO PEAD CORRIENTE-S.I-1106",
+    #     "ROLLO BOPP-S.I-1109",
+    #     "ROLLO CASTPP-S.I-1111",
+    #     "ROLLO NEGRO SEMIORIGINAL-S.I-1122",
+    #     "ROLLO PEBD ANCHO-S.I-1120",
+    #     "ROLLO PEBD CORRIENTE ANCHO-S.I-1121",
+    #     "ROLLO SIN FIN PEBD ORIGINAL-S.I-1401",
+    #     "ROLLO CENEFA PEBD ORIGINAL-S.I-1501",
         "ROLLO MOPP-C.I-1108",  
     ],
     "Numero_Bobinado":[
@@ -337,12 +389,18 @@ excepciones_por_grupo = {
        "ROLLO LAMINADO-1600-TRI-S.I",
     ],
     "Material_2":[
-      "ROLLO PROVIAGRO MULCH-1119",  
+      "ROLLO PROVIAGRO MULCH-1119",
+      "BOLSA PEBD ORIGINAL - 1201",
+     "BOLSA PEBD CORRIENTE-1202",
+     "BOLSA PEAD ORIGINAL-1205",  
     ],
     "Material_3":[
         "ROLLO PROVIAGRO MULCH-1119",
         "ROLLO LAMINADO-1600-BI-S.I",
         "ROLLO LAMINADO-1600-BI.C.I",
+        "BOLSA PEBD ORIGINAL - 1201",
+        "BOLSA PEBD CORRIENTE-1202",
+        "BOLSA PEAD ORIGINAL-1205",
 
     ],
    
@@ -363,7 +421,7 @@ for tipo_producto, campos in excepciones_por_tipo.items():
                 Campos_por_Tipo[tipo_producto][grupo][campo] = False
 
 # Aplicar excepciones por grupo
-for campo, grupos in excepciones_por_grupo.items():
+for campo, grupos in excepciones_rollos.items():
     for tipo_producto, grupos_tipo in Campos_por_Tipo.items():
         for grupo in grupos_tipo:
             if grupo in grupos:
@@ -380,9 +438,9 @@ for campo, grupos in excepciones_por_grupo.items():
 #                     Campos_por_Tipo[tipo_producto][grupo][campo] = valor
 
 # # Resultado final
-import pprint
+# import pprint
   
-pprint.pprint(Campos_por_Tipo)
+# pprint.pprint(Campos_por_Tipo)
 
 
 

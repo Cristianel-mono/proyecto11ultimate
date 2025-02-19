@@ -51,6 +51,7 @@ def add_reference_button() -> rx.Component:
                 rx.icon("plus", size=26),
                 rx.text("Crear nueva Referencia", size="4", display=["none", "none", "block"]),
                 size="3",
+                on_click=States_pagina.limpiar_datos_producto
             ),
         ),
         rx.dialog.content(
@@ -109,14 +110,23 @@ def mostrar_productos(rollo:Rollo):
         rx.table.cell(rollo.Color),
         rx.table.cell(rollo.Codigo_Siigo),
         rx.table.cell(rollo.fecha),
+        rx.table.cell(rollo.Referencia_Provispol),
         rx.table.cell(
-            rx.icon_button(
+            rx.box(
+                rx.icon_button(
                 rx.icon("trash-2", size=22),
                 on_click=lambda: States_pagina.eliminar_producto(getattr(rollo, "Codigo_Siigo")),
                 size="2",
                 variant="solid",
                 color_scheme="red",
+                ),
+                display="flex",
+                align_items="center",
+                justify_content="center",
+                width="100%",  # Opcional, ajusta el ancho del contenedor
+                height="100%",
             ),
+            
         ),
         # Estilo aplicado al nivel de la fila
         style={"_hover": {"bg": rx.color("gray", 3)}},
@@ -142,6 +152,7 @@ def mostrar_productos_eliminados(rollo:Rollo):
         # Estilo aplicado al nivel de la fila
         style={"_hover": {"bg": rx.color("gray", 3)}},
         align="center",
+        
     )
 
 
@@ -160,12 +171,20 @@ def main_table():
                     cursor="pointer",
                     on_click=States_pagina.alternar_orden,
                     ),
+                rx.icon(
+                    "arrow-up-a-z",
+                    size=28,
+                    stroke_width=1.5,
+                    cursor="pointer",
+                    on_click=States_pagina.alternar_orden,
                 ),
+
+            ),
             rx.select(
-                ["Codigo_Siigo", "Material", "fecha", "Grupo"],
-                placeholder="Buscar valor",
+                ["Codigo_Siigo", "Material_1", "fecha", "Grupo"],
+                placeholder="Ordenar por: Nombre",
                 size="3",
-                on_change=lambda value: States_pagina.filtrar_valores(value),
+                on_change=lambda value: States_pagina.nombres_columnas(value),
             ),
             rx.input(
                 rx.input.slot(rx.icon("search")),
@@ -186,12 +205,13 @@ def main_table():
         rx.table.root(
             rx.table.header(
                 rx.table.row(
-                  _header_cell("Grupo", "ruler"),
-                  _header_cell("Material", "ruler"),
-                  _header_cell("Color", "ruler"),
-                  _header_cell("Codigo Siigo", "ruler"),
-                  _header_cell("Fecha", "ruler"),
-                  _header_cell("Botones Interactivos", "ruler"),
+                  _header_cell("Grupo", "send_to_back"),
+                  _header_cell("Material", "test-tubes"),
+                  _header_cell("Color", "paint_bucket"),
+                  _header_cell("Codigo Siigo", "regex"),
+                  _header_cell("Fecha", "calendar_days"),
+                  _header_cell("Referencia", "file-sliders"),
+                  _header_cell("Eliminar", "trash-2"),
                 ),
             ),
             

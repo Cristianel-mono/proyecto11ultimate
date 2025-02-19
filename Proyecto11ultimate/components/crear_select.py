@@ -1,6 +1,6 @@
 import reflex as rx
 
-def crear_select(label, placeholder, name, items, value, required, is_visible=True, on_change= None):
+def crear_select(label, placeholder, name, items, value, required, is_visible=True, on_change= None, icon=None):
     return rx.cond(
         is_visible,
         rx.flex(
@@ -12,6 +12,7 @@ def crear_select(label, placeholder, name, items, value, required, is_visible=Tr
                 value=value,
                 required=required,
                 on_change=on_change,
+                icon=icon,
                 width="100%",
             ),
             width="100%",

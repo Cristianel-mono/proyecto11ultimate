@@ -29,7 +29,7 @@ app = rx.App(
 app.add_page(
     index,
     title="Provispol S.A",
-    description="A simple app to manage customer data.",
+    description="Pagina Principal",
 )
 app.add_page(
     ProductosEliminados,

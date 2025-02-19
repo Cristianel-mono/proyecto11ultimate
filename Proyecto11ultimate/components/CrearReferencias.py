@@ -1,85 +1,4 @@
 import reflex as rx 
-from typing import Dict
-
-
-#aca es donde nacen las referencias les daremos sus respectivos oredenes y valores
-#Crearemos una clase de estado para almacenar todos los valores y crear la referencia.
-
-class State_Rollo(rx.State):
-     
-    form_data: dict[str, str] = {}
-    referencia_str: str = " "
-   
-#nada que logramos actualizar el campo de tipo 
-    
-  
-    def actualizar_campo(self, campo: str, valor: str):
-        """
-        Actualiza un campo específico en el diccionario form_data.
-        """
-        
-        self.form_data[campo] = valor
-        print(f"Campo actualizado: {campo} -> {valor}")
-    
-    def actualizar_form_data(self):
-        """
-        Procesa los datos almacenados en form_data y genera la referencia de manera dinámica.
-        """
-
-        def generar_referencia(form_data, orden_campos):
-            """
-            Genera una referencia dinámica basada en los datos del formulario y el orden de los campos.
-
-            Args:
-                form_data (dict): Datos del formulario.
-                orden_campos (dict): Diccionario que define el orden y el estado de los campos/literales.
-
-            Returns:
-                str: Referencia generada.
-            """
-            referencia_ordenada = []
-
-            for campo, incluir in orden_campos.items():
-                # Si el campo es un literal fijo, depende de su valor en el diccionario
-                if not campo.isalpha() and incluir:
-                    referencia_ordenada.append(campo)
-                    continue
-
-                # Si el campo está en form_data
-                if campo in form_data:
-                    valor = form_data.get(campo, "").strip()
-                    valor = CAMPOS.get(campo, {}).get(valor, valor)  # Traducir valor si aplica
-
-                    # Validar dependencias entre unidades y valores
-                    if "Unidades_" in campo:
-                        campo_principal = campo.replace("Unidades_", "")
-                        if not form_data.get(campo_principal):
-                            continue  # Saltar si el campo principal no está presente
-
-                    if valor:  # Solo incluir si hay un valor válido
-                        referencia_ordenada.append(valor)
-                        orden_campos[campo] = True  # Actualizar estado a True
-
-                 
-
-
-            return " ".join(referencia_ordenada).strip()
-
-        print("Datos del formulario actualizados:", self.form_data)
-
-        # Crear una copia de ORDEN_CAMPOS_ROLLOS para modificar su estado
-        orden_campos_actualizado = ORDEN_CAMPOS_ROLLOS.copy()
-
-        # Generar la referencia usando la lógica dinámica
-        self.referencia_str = generar_referencia(self.form_data, orden_campos_actualizado)
-
-        print("Referencia generada:", self.referencia_str)
-        print("Estado de los campos:", orden_campos_actualizado)
-
-        # Limpiar los datos del formulario después de generar la referencia
-        self.form_data.clear()
-        print("Datos del formulario limpiados:", self.form_data)
-
 
 
 
@@ -130,9 +49,9 @@ CAMPOS = {
         "Plata-Negro": "PLATA/NGR",
     },
     "Unidades_Ancho": {
-        "Centímetros(cm)": "cm *",
-        "Milímetros(mm)": "mm *",
-        "Pulgadas(in)": "in *",
+        "Centímetros(cm)": "cm",
+        "Milímetros(mm)": "mm",
+        "Pulgadas(in)": "in",
     },
     "Unidades_Largo": {
         "Centímetros(cm)": "cm",
@@ -141,14 +60,16 @@ CAMPOS = {
         "Metros(m)": "m",
     },
     "Unidades_Calibre": {
-        "Milésimas de pulgada(mils)": "mils *",
-        "Micras(mic)": "mic *",
+        "Milésimas de pulgada(mils)": "mils",
+        "Micras(mic)": "mic",
     },
     "Tipo_Bobinado": {
         "Tubular": "TUB",
         "Semitubular": "STUB",
         "Lámina": "LAM",
         "Lámina doble": "LAM_DOB",
+        "Total Lamina": "T-LAM"
+
     },
     "Acabado": {
         "Grafilado": "GRAF",
@@ -159,26 +80,61 @@ CAMPOS = {
     "Tratado": {
         "SIN TRATAR": "ST",
         "TRATADO 1 CARA": "T1C",
-        "TRATADO 2 CARA": "T2C",
+        "TRATADO 2 CARAS": "T2C",
     },
 }
 
+LITERALES_FIJOS = {
+    "Unidades_Ancho": "*",
+    "Unidades_Calibre": "*",
+    "Fuelle_Izquierdo": "+",
+    "Fuelle_Derecho": "+",
+    #"Referencia": "Ref",
+}
+
+Grupos_Especiales = {
+    "ROLLO PEBD CORRIENTE-S.I-1102": "Cte",
+    "ROLLO PEBD SEMIORIGINAL-S.I-1103": "SemiOrg",
+    "ROLLO PEBD COEXTRUIDO-S.I-1104": "Coext",
+    "ROLLO PEAD CORRIENTE-S.I-1106": "Cte",
+    "ROLLO PEBD TERMOENCOGIBLE-S.I-1107": "Termoenc",
+    "ROLLO NEGRO SEMIORIGINAL-S.I-1122": "SemiOrg",
+    "ROLLO PEBD CORRIENTE-C.I-1102": "Cte",
+    "ROLLO PEBD SEMIORIGINAL-C.I-1103": "SemiOrg",
+    "ROLLO PEBD COEXTRUIDO-C.I-1104": "Coext",
+    "ROLLO PEAD CORRIENTE-C.I-1106": "Coext",
+    "ROLLO NEGRO SEMIORIGINAL-C.I-1122": "SemiOrg",
+
+    
+}
 ORDEN_CAMPOS_ROLLOS = { 
-    "Tipo_Producto": False,  
-    "R-":True,
-    "Material_1":False,
-    " ":True,
-    "Color":False,          
-    " " :True,
-    "Ancho":False,          
-    "Unidades_Ancho":False, 
-    "*":False, # Literal fijo ancho             
-    "Calibre":False,        
-    "Unidades_Calibre":False, 
-    "*":False,  # Literal fijo calibre         
-    "Largo":False,          
-    "Unidades_Largo":False, 
-    "Tipo_Bobinado":False,  
-    "Ref":False,           
-    "referencia":False,     
-  }
+    #"Tipo_Producto": False,  
+    "R-": True,
+    "Material_1": False,
+    "ESPACIO_0": "False",
+    "Literal_Especial": False,
+    "ESPACIO_1": True,
+    "Color": False,
+    "ESPACIO_2": True,
+    "Ancho": False,
+    #"ESPACIO_3": True,  # Espacio después del ancho
+    "Fuelle_Izquierdo": False,
+    "Fuelle_Derecho": False,          
+    "Unidades_Ancho": False,             
+    "Calibre": False,        
+    "Unidades_Calibre": False,        
+    "Largo": False,          
+    "Unidades_Largo": False,
+    "ESPACIO_4": True,
+    "Tratado": False,
+    "ESPACIO_5": True,  
+    "Acabado": False,
+    "ESPACIO_6": True,
+    "Tipo_Bobinado": False,     
+    #"Ref": False,
+    "ESPACIO_7": True,           
+    "Referencia": False,
+    "ESPACION_8":True,
+    
+    
+}

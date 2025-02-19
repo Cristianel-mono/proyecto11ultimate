@@ -2,8 +2,9 @@ import reflex as rx
 from Proyecto11ultimate.components.crear_select import crear_select
 from Proyecto11ultimate.components.crear_imput import crear_forma
 from ..backend.backend import States_pagina
-from ..components.CrearReferencias import State_Rollo
-from ..views.Listados import Grupo , Material, Color, Tipo_Producto, Grupos_por_Tipo_Producto,Unidades_Ancho,Unidades_Largo,Unidades_Calibre, Tipo_Bobinado, Acabado, Tratado, Numero_Bobinado
+from ..components.CrearReferencias import  ORDEN_CAMPOS_ROLLOS
+from ..views.Listados import Grupo , Material, Color, Tipo_Producto_Rollos, Grupos_por_Tipo_Producto,Unidades_Ancho,Unidades_Largo,Unidades_Calibre
+from ..views.Listados import  Tipo_Bobinado, Acabado, Tratado, Numero_Bobinado, Tipos_Productos_Bolsas, Tipo_Bolsa, Tipo_Selle, Tipo_Troquel, Tipo_Solapa
 from reflex.components.radix.themes.components.select import SelectItem
 
 
@@ -52,7 +53,37 @@ def bolsa_form():
     return rx.form(
         rx.vstack(
             rx.text("Creación de referencia para Bolsas", weight="bold", size="4"),
-            
+               rx.flex(
+            rx.text("Seleccione el Tipo de Producto", font_weight="bold", margin_bottom="0.5em"),
+            rx.select(
+                Tipos_Productos_Bolsas,  # Opciones del tipo de producto
+                placeholder="Elija el Tipo de Producto",
+                name="Tipo_Producto",
+                required=True,
+                #on_change= lambda e: States_pagina.producto_nuevo("Tipo_Producto", e),
+                on_change=States_pagina.actualizar_tipo_producto,
+                #on_change=lambda e:  State_Rollo.actualizar_campo("Tipo_Producto", e),
+            ),
+            width="100%",
+            justify="center",
+            flex_wrap="nowrap",
+            direction="column",
+        ),
+
+        rx.flex(
+            rx.text("Seleccione el Grupo", font_weight="bold", margin_bottom="0.5em"),
+            rx.select(
+                items=items_grupo,
+                placeholder="Elija el Grupo",
+                name="Grupo",
+                required=True,
+                on_change=States_pagina.actualizar_grupo,
+            ),
+            width="100%",
+            justify="center",
+            flex_wrap="nowrap",
+            direction="column",
+        ),  
               # Selección de material
                crear_select(
                 "Ingrese el Material de su bolsa",
@@ -62,8 +93,29 @@ def bolsa_form():
                 value=States_pagina.valores_campos["Material_1"],
                 required=False,
                 is_visible=True,
-                on_change=lambda e: State_Rollo.actualizar_campo("Material_1", e),
-            ),
+                #on_change=lambda e: State_Rollo.actualizar_campo("Material_1", e),
+                ),
+                crear_select(
+                "Material 2",
+                "Ingrese el Material 2",
+                "Material_2",
+                Material,
+                States_pagina.valores_campos["Material_2"],
+                required=False,
+                is_visible=States_pagina.campos_visibles["Material_2"],
+                on_change=lambda e: States_pagina.actualizar_campo("Material_2", e),
+                ),
+                crear_select(
+                "Material 3",
+                "Ingrese el Material 3",
+                "Material_3",
+                Material,
+                States_pagina.valores_campos["Material_3"],
+                required=False,
+                is_visible=States_pagina.campos_visibles["Material_3"],
+                on_change=lambda e: States_pagina.actualizar_campo("Material_3", e),
+                ),
+             
         
             # Campos adicionales
             crear_forma("Ancho (cm)", "Ingrese el Ancho", "number", "ancho", "ruler", is_visible=True),
@@ -74,7 +126,7 @@ def bolsa_form():
                     Unidades_Ancho,
                     States_pagina.valores_campos["Unidades_Ancho"],
                     required=True,
-                    on_change=lambda e: State_Rollo.actualizar_campo("Unidades_Ancho", e),
+                    #on_change=lambda e: State_Rollo.actualizar_campo("Unidades_Ancho", e),
                 ),
             crear_forma("Largo (cm)", "Ingrese el Largo", "number", "largo", "ruler", is_visible=True),
             crear_select(
@@ -84,10 +136,10 @@ def bolsa_form():
                     Unidades_Ancho,
                     States_pagina.valores_campos["Unidades_Ancho"],
                     required=True,
-                    on_change=lambda e: State_Rollo.actualizar_campo("Unidades_Ancho", e),
+                   #on_change=lambda e: State_Rollo.actualizar_campo("Unidades_Ancho", e),
                 ),
            
-                crear_forma("Calibre", "Ingrese el Calibre", "number", "Calibre", "ruler", is_visible=True,on_change=lambda e: State_Rollo.actualizar_campo("Calibre", e)),
+                crear_forma("Calibre", "Ingrese el Calibre", "number", "Calibre", "ruler", is_visible=True,on_change=lambda e: States_pagina.actualizar_campo("Calibre", e)),
                 crear_select(
                     "Unidades Calibre",
                     "Ingrese las unidades",
@@ -95,9 +147,77 @@ def bolsa_form():
                     Unidades_Calibre,
                     States_pagina.valores_campos["Unidades_Calibre"],
                     required=True,
-                    on_change=lambda e: State_Rollo.actualizar_campo("Unidades_Calibre", e),
+                    #on_change=lambda e: State_Rollo.actualizar_campo("Unidades_Calibre", e),
                    
                 ),
+                crear_forma("Peso por Estructura", "Ingrese el Peso", "number", "Peso_Estructura", "weight", is_visible=States_pagina.campos_visibles["Peso_Estructura"]),
+                  crear_select(
+                "Acabado",
+                "Ingrese el tipo de Acabado",
+                "Acabado",
+                Acabado,
+                States_pagina.valores_campos["Acabado"],
+                required=False,
+                is_visible=States_pagina.campos_visibles["Acabado"],
+                on_change=lambda e: States_pagina.actualizar_campo("Acabado", e)
+            ),
+            
+            # Tratado
+            crear_select(
+                "Tratado",
+                "Ingrese el tipo de tratado",
+                "Tratado",
+                Tratado,
+                States_pagina.valores_campos["Tratado"],
+                required=False,
+                is_visible=States_pagina.campos_visibles["Tratado"],
+                on_change=lambda e: States_pagina.actualizar_campo("Tratado", e)
+            ),
+             crear_forma("Peso Millar", "Ingrese el Peso", "number", "Peso_Millar", "weight", is_visible=States_pagina.campos_visibles["Peso_Millar"]),
+             crear_select(
+                "Tipo de Bolsa",
+                "Ingrese el tipo de bolsa",
+                "Tipo_Bolsa",
+                Tipo_Bolsa,
+                States_pagina.valores_campos["Tipo_Bolsa"],
+                required=False,
+                is_visible=States_pagina.campos_visibles["Tipo_Bolsa"],
+                on_change=lambda e: States_pagina.actualizar_campo("Tipo_Bolsa", e)
+            ),
+            crear_select(
+                "Tipo de Selle",
+                "Ingrese el tipo de selle",
+                "Tipo_Selle",
+                Tipo_Selle,
+                States_pagina.valores_campos["Tipo_Bolsa"],
+                required=False,
+                is_visible=States_pagina.campos_visibles["Tipo_Bolsa"],
+                on_change=lambda e: States_pagina.actualizar_campo("Tipo_Bolsa", e)
+            ),
+            crear_select(
+                "Tipo de Troquel",
+                "Ingrese el tipo de troquel",
+                "Tipo_Troquel",
+                Tipo_Troquel,
+                States_pagina.valores_campos["Tipo_Troquel"],
+                required=False,
+                is_visible=States_pagina.campos_visibles["Tipo_Troquel"],
+                on_change=lambda e: States_pagina.actualizar_campo("Tipo_Troquel", e)
+            ),
+              crear_select(
+                "Tipo de Solapa",
+                "Ingrese el tipo de Solapa",
+                "Tipo_Solapa",
+                Tipo_Solapa,
+                States_pagina.valores_campos["Tipo_Solapa"],
+                required=False,
+                is_visible=States_pagina.campos_visibles["Tipo_Solapa"],
+                on_change=lambda e: States_pagina.actualizar_campo("Tipo_Solapa", e)
+            ),
+
+            crear_forma("Solapa", "Ingrese la solapa", "number", "Solapa", "weight", is_visible=States_pagina.campos_visibles["Solapa"]),
+             
+
                  crear_forma(
                 "Fuelle Lateral",
                 "Ingrese el Fuelle Lateral",
@@ -105,7 +225,7 @@ def bolsa_form():
                 "Fuelle_Izquierdo",
                 "ruler",
                 is_visible=States_pagina.campos_visibles["Fuelle_izquierdo"],
-                on_change=lambda e: State_Rollo.actualizar_campo("Fuelle_Izquierdo", e),
+                #on_change=lambda e: State_Rollo.actualizar_campo("Fuelle_Izquierdo", e),
                 ),
                 crear_forma(
                     "Fuelle Frontal",
@@ -114,7 +234,7 @@ def bolsa_form():
                     "Fuelle_Derecho",
                     "ruler",
                     is_visible=States_pagina.campos_visibles["Fuelle_derecho"],
-                    on_change=lambda e: State_Rollo.actualizar_campo("Fuelle_derecho", e),
+                    #on_change=lambda e: State_Rollo.actualizar_campo("Fuelle_derecho", e),
                 ),
                 crear_forma(
                     "Referencia",
@@ -122,15 +242,28 @@ def bolsa_form():
                     "Str",
                     "Referencia",
                     "ruler",
-                    is_visible=States_pagina.campos_visibles["Fuelle_derecho"],
-                    on_change=lambda e: State_Rollo.actualizar_campo("Fuelle_derecho", e),
+                    is_visible=States_pagina.campos_visibles["Referencia"],
+                    #on_change=lambda e: State_Rollo.actualizar_campo("Fuelle_derecho", e),
                 ),
-                crear_forma("Código Siigo", "Ingrese el Código Siigo", "number", "Codigo_Siigo", "ruler", is_visible=True),
-                    
+                 rx.input(
+                placeholder="Ingrese el Código Siigo",
+                value=States_pagina.Codigo_Siigo,  # Vincular al estado
+                on_change=lambda e: States_pagina.actualizar_campo("Codigo_Siigo", e),
+                style={
+                            "height": "40px",
+                            "width": "400px",
+                            "padding": "8px",
+                            "font-size": "14px",
+                            "border-radius": "4px",
+                            "border": "1px solid #ccc",
+                            "box-shadow": "none",
+                            "outline": "none",
+                        },
+                ),      
                     #Boton de creacion de referencias 
                     rx.hstack(
                         rx.button("Crear Referencias",variant="soft", color_scheme="yellow"),
-                        on_click=lambda: State_Rollo.actualizar_form_data,
+                        #on_click=lambda: State_Rollo.crear_referencia(States_pagina.producto_nuevo),
                         type="button",
                         
                         
@@ -138,22 +271,7 @@ def bolsa_form():
                     
                     #crear_forma("Referencia Provispol","", "str","Referencia_Provispol","ruler", default_value=State_Rollo.referencia_str, is_visible=True),
                 
-                rx.input(
-                    placeholder="Referencia Provispol",
-                    value=State_Rollo.referencia_str,  # Vincular el valor al estado
-                    is_visible=True,
-                    style={
-                        "height": "40px",  # Altura consistente
-                        "width": "100%",  # Ancho completo
-                        "padding": "8px",  # Espaciado interno
-                        "font-size": "14px",  # Tamaño de fuente uniforme
-                        "border-radius": "4px",  # Bordes redondeados
-                        "border": "1px solid #ccc",  # Borde estándar
-                        "box-shadow": "none",  # Evitar resaltado por sombra
-                        "outline": "none",  # Evitar foco adicional
-                    },
-                ),
-
+           
                                 
                     # Botones de acción
                     rx.flex(
@@ -203,10 +321,11 @@ def rollo_form():
                     rx.flex(
             rx.text("Seleccione el Tipo de Producto", font_weight="bold", margin_bottom="0.5em"),
             rx.select(
-                Tipo_Producto,  # Opciones del tipo de producto
+                Tipo_Producto_Rollos,  # Opciones del tipo de producto
                 placeholder="Elija el Tipo de Producto",
                 name="Tipo_Producto",
                 required=True,
+                #on_change= lambda e: States_pagina.producto_nuevo("Tipo_Producto", e),
                 on_change=States_pagina.actualizar_tipo_producto,
                 #on_change=lambda e:  State_Rollo.actualizar_campo("Tipo_Producto", e),
             ),
@@ -241,7 +360,8 @@ def rollo_form():
                 value=States_pagina.valores_campos["Material_1"],
                 required=False,
                 is_visible=True,
-                on_change=lambda e: State_Rollo.actualizar_campo("Material_1", e),
+                on_change=lambda e: States_pagina.actualizar_campo("Material_1", e),
+
             ),
         
 
@@ -253,7 +373,7 @@ def rollo_form():
                 States_pagina.valores_campos["Material_2"],
                 required=False,
                 is_visible=States_pagina.campos_visibles["Material_2"],
-                on_change=lambda e: State_Rollo.actualizar_campo("Material_2", e),
+                on_change=lambda e: States_pagina.actualizar_campo("Material_2", e),
             ),
             crear_select(
                 "Material 3",
@@ -263,7 +383,7 @@ def rollo_form():
                 States_pagina.valores_campos["Material_3"],
                 required=False,
                 is_visible=States_pagina.campos_visibles["Material_3"],
-                on_change=lambda e: State_Rollo.actualizar_campo("Material_3", e),
+                on_change=lambda e: States_pagina.actualizar_campo("Material_3", e),
             ),
             
             # Selección de Color
@@ -275,14 +395,14 @@ def rollo_form():
                 value=States_pagina.valores_campos["Color"],
                 required=False,
                 is_visible=States_pagina.campos_visibles["Color"],
-                on_change=lambda e: State_Rollo.actualizar_campo("Color", e),
+                on_change=lambda e: States_pagina.actualizar_campo("Color", e),
                 
                 
             ),
             
             # Campos de dimensiones
             rx.flex(
-                crear_forma("Ancho", "Ingrese el Ancho", "number", "Ancho", "ruler", is_visible=True,on_change=lambda e: State_Rollo.actualizar_campo("Ancho", e)),
+                crear_forma("Ancho", "Ingrese el Ancho", "number", "Ancho", "ruler", is_visible=True,on_change=lambda e:  States_pagina.actualizar_campo("Ancho", e)),
                 
                 crear_select(
                     "Unidades Ancho",
@@ -291,7 +411,8 @@ def rollo_form():
                     Unidades_Ancho,
                     States_pagina.valores_campos["Unidades_Ancho"],
                     required=True,
-                    on_change=lambda e: State_Rollo.actualizar_campo("Unidades_Ancho", e),
+                    on_change=lambda e:  States_pagina.actualizar_campo("Unidades_Ancho", e),
+                   
                 ),
                 width="100%",
                 justify="center",
@@ -300,7 +421,7 @@ def rollo_form():
             ),
             
             rx.flex(
-                crear_forma("Largo", "Ingrese el Largo", "number", "Largo", "ruler", is_visible=True,on_change=lambda e: State_Rollo.actualizar_campo("Largo", e)),
+                crear_forma("Largo", "Ingrese el Largo", "number", "Largo", "ruler", is_visible=True,on_change=lambda e:  States_pagina.actualizar_campo("Largo", e)),
                 crear_select(
                     "Unidades Largo",
                     "Ingrese las unidades",
@@ -308,7 +429,7 @@ def rollo_form():
                     Unidades_Largo,
                     States_pagina.valores_campos["Unidades_Largo"],
                     required=True,
-                    on_change=lambda e: State_Rollo.actualizar_campo("Unidades_Largo", e),
+                    on_change=lambda e:  States_pagina.actualizar_campo("Unidades_Largo", e),
                 ),
                 width="100%",
                 justify="center",
@@ -317,7 +438,7 @@ def rollo_form():
             ),
             
             rx.flex(
-                crear_forma("Calibre", "Ingrese el Calibre", "number", "Calibre", "ruler", is_visible=True,on_change=lambda e: State_Rollo.actualizar_campo("Calibre", e)),
+                crear_forma("Calibre", "Ingrese el Calibre", "number", "Calibre", "ruler", is_visible=True,on_change=lambda e: States_pagina.actualizar_campo("Calibre", e)),
                 crear_select(
                     "Unidades Calibre",
                     "Ingrese las unidades",
@@ -325,7 +446,7 @@ def rollo_form():
                     Unidades_Calibre,
                     States_pagina.valores_campos["Unidades_Calibre"],
                     required=True,
-                    on_change=lambda e: State_Rollo.actualizar_campo("Unidades_Calibre", e),
+                    on_change=lambda e: States_pagina.actualizar_campo("Unidades_Calibre", e),
                    
                 ),
                 width="100%",
@@ -346,7 +467,7 @@ def rollo_form():
                 States_pagina.valores_campos["Tipo_Bobinado"],
                 required=True,
                 #is_visible=States_pagina.campos_visibles["Tipo_Bobinado"],
-                on_change=lambda e: State_Rollo.actualizar_campo("Tipo_Bobinado", e),
+                on_change=lambda e: States_pagina.actualizar_campo("Tipo_Bobinado", e),
             ),
             crear_select(
                 "Número de Bobinado",
@@ -369,7 +490,7 @@ def rollo_form():
                 "Fuelle_Izquierdo",
                 "ruler",
                 is_visible=States_pagina.campos_visibles["Fuelle_izquierdo"],
-                on_change=lambda e: State_Rollo.actualizar_campo("Fuelle_Izquierdo", e),
+                on_change=lambda e: States_pagina.actualizar_campo("Fuelle_Izquierdo", e),
             ),
             crear_forma(
                 "Fuelle Derecho",
@@ -378,7 +499,7 @@ def rollo_form():
                 "Fuelle_Derecho",
                 "ruler",
                 is_visible=States_pagina.campos_visibles["Fuelle_derecho"],
-                on_change=lambda e: State_Rollo.actualizar_campo("Fuelle_derecho", e),
+                on_change=lambda e: States_pagina.actualizar_campo("Fuelle_Derecho", e),
             ),
             
             # Acabado
@@ -390,7 +511,7 @@ def rollo_form():
                 States_pagina.valores_campos["Acabado"],
                 required=False,
                 is_visible=States_pagina.campos_visibles["Acabado"],
-                on_change=lambda e: State_Rollo.actualizar_campo("Acabado", e)
+                on_change=lambda e: States_pagina.actualizar_campo("Acabado", e)
             ),
             
             # Tratado
@@ -402,16 +523,31 @@ def rollo_form():
                 States_pagina.valores_campos["Tratado"],
                 required=False,
                 is_visible=States_pagina.campos_visibles["Tratado"],
-                on_change=lambda e: State_Rollo.actualizar_campo("Tratato", e)
+                on_change=lambda e: States_pagina.actualizar_campo("Tratado", e)
             ),
             
-            # Código Siigo
-            crear_forma("Código Siigo", "Ingrese el Código Siigo", "number", "Codigo_Siigo", "ruler", is_visible=True),
-            
-            #Boton de creacion de referencias 
+         
+            crear_forma("Referencia", "Ingrese la Referencia", "str", "Referencia", "ruler", is_visible=True, on_change=lambda e: States_pagina.actualizar_campo("Referencia", e)),
+           
+            rx.input(
+                placeholder="Ingrese el Código Siigo",
+                value=States_pagina.Codigo_Siigo,  # Vincular al estado
+                on_change=lambda e: States_pagina.actualizar_campo("Codigo_Siigo", e),
+                style={
+                            "height": "40px",
+                            "width": "400px",
+                            "padding": "8px",
+                            "font-size": "14px",
+                            "border-radius": "4px",
+                            "border": "1px solid #ccc",
+                            "box-shadow": "none",
+                            "outline": "none",
+                        },
+                ),    
+
             rx.hstack(
                 rx.button("Crear Referencias",variant="soft", color_scheme="yellow"),
-                on_click=lambda: State_Rollo.actualizar_form_data,
+                on_click=lambda: States_pagina.actualizar_form_data(),
                 type="button",
                 
                 
@@ -419,33 +555,51 @@ def rollo_form():
             
             #crear_forma("Referencia Provispol","", "str","Referencia_Provispol","ruler", default_value=State_Rollo.referencia_str, is_visible=True),
            
-         rx.input(
-            placeholder="Referencia Provispol",
-            value=State_Rollo.referencia_str,  # Vincular el valor al estado
-            is_visible=True,
-            style={
-                "height": "40px",  # Altura consistente
-                "width": "100%",  # Ancho completo
-                "padding": "8px",  # Espaciado interno
-                "font-size": "14px",  # Tamaño de fuente uniforme
-                "border-radius": "4px",  # Bordes redondeados
-                "border": "1px solid #ccc",  # Borde estándar
-                "box-shadow": "none",  # Evitar resaltado por sombra
-                "outline": "none",  # Evitar foco adicional
-            },
-        ),
+                rx.flex(
+                    rx.input(
+                        placeholder="Referencia Provispol",
+                        value=States_pagina.referencia_str,  # Vincular al estado
+                        is_visible=True,
+                        #on_change= lambda e : States_pagina.actualizar_campo("Referencia_Provispol", e),
+                        style={
+                            "height": "40px",
+                            "width": "400px",
+                            "padding": "8px",
+                            "font-size": "14px",
+                            "border-radius": "4px",
+                            "border": "1px solid #ccc",
+                            "box-shadow": "none",
+                            "outline": "none",
+                        },
+                    ),
+                    rx.button(
+                        "Copiar",
+                        on_click=States_pagina.copiar_referencia,  # Evento personalizado
+                        variant="soft",
+                        color_scheme="green",
+                        height="40px",
+                    ),
+                    padding_top="1em",
+                    spacing="1",
+                    mt="4",
+                    justify="center",
+                
+                ),
+                    
 
                         
             # Botones de acción
             rx.flex(
                 rx.dialog.close(
                     rx.button("Cancelar", variant="soft", color_scheme="gray"),
+                    on_click=States_pagina.limpiar_datos_producto
                 ),
                 rx.form.submit(
                     rx.dialog.close(rx.button("Agregar Referencia")),
                     as_child=True,
                     type="submit",
-                    #on_click = lambda: States_pagina.agregarProducto_to_db(),
+                    on_click = lambda: States_pagina.agregarProducto_to_db(States_pagina.producto_nuevo),
+                    reset_on_submit=True,
                      
                 ),
                 padding_top="2em",
@@ -455,8 +609,8 @@ def rollo_form():
             ),
         ),
         #on_submit=State_Rollo.actualizar_form_data,
-        on_submit=States_pagina.agregarProducto_to_db,
-        reset_on_submit=True,
+        #on_submit=States_pagina.agregarProducto_to_db,
+        
         width="100%",
         direction="column",
         spacing="4",
